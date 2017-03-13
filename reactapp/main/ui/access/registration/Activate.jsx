@@ -1,16 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { hashHistory } from 'react-router';
 
-import { ACTIVATION_FAILED_LINK } from '../../../../routes';
 import { activateUserThroughSocket } from '../../../web-mobile-common/access/activation/actionGenerators';
-
+import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
 
 export const Activate = React.createClass({
   componentWillMount() {
-    const { dispatch } = this.props;
     const { email, code } = this.props.location.query;
-    dispatch(activateUserThroughSocket(email, code))
+    this.props.activateUserThroughSocket(email, code)
   },
   render() {
     return (
@@ -26,4 +23,4 @@ export const Activate = React.createClass({
   }
 });
 
-export default connect()(Activate);
+export default connect(emptyMapStateToProps, { activateUserThroughSocket })(Activate);

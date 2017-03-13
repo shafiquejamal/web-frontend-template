@@ -17,8 +17,8 @@ export const ManageAccount = React.createClass({
                           <div className="cols-sm-10">
                             <div className="form-group">
                               <div className={`input-group`}>
-                                <p>Username: {this.props.auth.username}</p>
-                                <p>Email: {this.props.auth.email}</p>
+                                <p>Username: {this.props.authentication.username}</p>
+                                <p>Email: {this.props.authentication.email}</p>
                                 <div className="login-register">
                                     <Link to={CHANGE_PASSWORD_LINK}>{CHANGE_PASSWORD_TEXT}</Link>
                                 </div>
@@ -37,4 +37,6 @@ export const ManageAccount = React.createClass({
   }
 });
 
-export default Redux.connect((state) => { return state; })(ManageAccount)
+const mapStateToProps = ({ authentication }) => { return { authentication } };
+
+export default Redux.connect(mapStateToProps, { })(ManageAccount)

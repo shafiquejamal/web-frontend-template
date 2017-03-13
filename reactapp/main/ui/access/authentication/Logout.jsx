@@ -1,11 +1,12 @@
 import React from 'react';
-import * as Redux from 'react-redux';
+import { connect } from 'react-redux';
+
 import { logoutUser } from '../../../web-mobile-common/access/authentication/actionGenerators';
+import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
 
 export const Logout = React.createClass({
   componentWillMount() {
-    const { dispatch } = this.props;
-    dispatch(logoutUser());
+    this.props.logoutUser();
   },
   render() {
     return (
@@ -21,4 +22,4 @@ export const Logout = React.createClass({
   }
 });
 
-export default Redux.connect((state) => { return state; })(Logout)
+export default connect(emptyMapStateToProps, { logoutUser })(Logout)

@@ -1,9 +1,10 @@
 import React from 'react';
-import * as Redux from 'react-redux';
+import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router';
 
 import { REGISTER_LINK, REGISTER_TEXT, REQUEST_RESET_PASSWORD_LINK, REQUEST_RESET_PASSWORD_TEXT, MANAGE_ACCOUNT_LINK, RESEND_ACTIVATION_LINK, RESEND_ACTIVATION_TEXT } from '../../../../routes';
 import { logUserInThroughSocket } from '../../../web-mobile-common/access/authentication/actionGenerators';
+import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
 
 export const Login = React.createClass({
   getInitialState() {
@@ -12,9 +13,8 @@ export const Login = React.createClass({
     }
   },
   onLogin() {
-    const { dispatch } = this.props;
     const { emailOrUsername, password } = this.refs;
-    dispatch(logUserInThroughSocket(emailOrUsername.value, password.value));
+    this.props.logUserInThroughSocket(emailOrUsername.value, password.value);
   },
   render() {
     return (
@@ -74,4 +74,4 @@ export const Login = React.createClass({
   }
 });
 
-export default Redux.connect((state) => { return state; })(Login);
+export default connect(emptyMapStateToProps, { logUserInThroughSocket })(Login);

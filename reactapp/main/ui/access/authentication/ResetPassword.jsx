@@ -15,9 +15,7 @@ export const ResetPassword = React.createClass({
     checkPassword: function(e) {
       const inputValue = e.target.value;
       const checkVariable = e.target.getAttribute('data-check').toLowerCase();
-      const checkVariableTitleCase = checkVariable.charAt(0).toUpperCase() + checkVariable.slice(1);
       const errorVariable = checkVariable + 'Error';
-      // debugger;
       this.setState({
           [errorVariable]: inputValue === '' ? 'This field is required' : ''
       });
@@ -95,4 +93,4 @@ export const ResetPassword = React.createClass({
 
 export default Redux.connect((state) => {
   return state;
-}, )(ResetPassword);
+}, { })(ResetPassword);

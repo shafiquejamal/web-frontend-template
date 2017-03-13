@@ -3,7 +3,7 @@ import * as Redux from 'react-redux';
 import { Link, hashHistory } from 'react-router';
 
 import { requestPasswordResetCodeThroughSocket } from '../../../web-mobile-common/access/authentication/actionGenerators';
-
+import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
 
 export const RequestResetPassword = React.createClass({
   getInitialState() {
@@ -15,9 +15,8 @@ export const RequestResetPassword = React.createClass({
   },
   onSendPasswordResetLink(e) {
     e.preventDefault();
-    const { dispatch } = this.props;
     const email = this.refs.email.value;
-    dispatch(requestPasswordResetCodeThroughSocket(email))
+    this.props.requestPasswordResetCodeThroughSocket(email)
   },
   render() {
     return (
@@ -64,4 +63,4 @@ export const RequestResetPassword = React.createClass({
   }
 });
 
-export default Redux.connect((state) => { return state; })(RequestResetPassword);
+export default Redux.connect(emptyMapStateToProps, { requestPasswordResetCodeThroughSocket })(RequestResetPassword);

@@ -59,16 +59,16 @@ export const webSocketWrapper = (store) => {
     },
     wSListener: () => {
       const lastAction = store.getState().lastAction;
+      console.log('wSListener: getState', store.getState());
+      switch (lastAction.type) {
+        case ActionTypes.POST_OBJECT:
+          return wrapper.postObject(lastAction.obj);
 
-        switch (lastAction.type) {
-          case ActionTypes.POST_OBJECT:
-            return wrapper.postObject(lastAction.obj);
+        case ActionTypes.CONNECT:
+          return wrapper.startWS();
 
-          case ActionTypes.CONNECT:
-            return wrapper.startWS();
-
-          default:
-            return;
+        default:
+          return;
       }
     }
   };

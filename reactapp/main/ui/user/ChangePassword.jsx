@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import * as Redux from 'react-redux';
+import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router';
 
 import { changePasswordThroughSocket } from '../../web-mobile-common/access/authentication/actionGenerators';
+import { emptyMapStateToProps } from '../../web-mobile-common/common/misc.jsx';
 
 export const ChangePassword = React.createClass({
     getInitialState: function() {
@@ -32,9 +33,8 @@ export const ChangePassword = React.createClass({
     },
     onChangePassword() {
       const { currentpasswordError, newpasswordError, confirmError} = this.state;
-      const { dispatch } = this.props;
       if (currentpasswordError === '' && newpasswordError === '' && confirmError === '' ) {
-        dispatch(changePasswordThroughSocket(this.refs.currentpassword.value, this.refs.newpassword.value))
+        this.props.changePasswordThroughSocket(this.refs.currentpassword.value, this.refs.newpassword.value)
       }
     },
     render() {
@@ -104,6 +104,4 @@ export const ChangePassword = React.createClass({
     }
 });
 
-export default Redux.connect((state) => {
-  return state;
-})(ChangePassword);
+export default connect(emptyMapStateToProps, { changePasswordThroughSocket })(ChangePassword);

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import * as Redux from 'react-redux';
-import { Link, hashHistory } from 'react-router';
+import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import validator from 'validator';
 
 import { LOGIN_LINK, LOGIN_TEXT, REGISTRATION_SUCCESS_LINK, RESEND_ACTIVATION_LINK, RESEND_ACTIVATION_TEXT } from '../../../../routes';
 import { registerUserThroughSocket, checkEmailAvailableThroughSocket, checkUsernameAvailableThroughSocket } from '../../../web-mobile-common/access/registration/actionGenerators';
+import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
 
 export const Register = React.createClass({
     getInitialState: function() {
@@ -27,20 +28,18 @@ export const Register = React.createClass({
       }
     },
     checkAvailable: function(e) {
-      const { dispatch } = this.props;
-      const that = this;
       const inputValue = e.target.value;
       const checkVariable = e.target.getAttribute('data-check').toLowerCase();
       const checkVariableTitleCase = checkVariable.charAt(0).toUpperCase() + checkVariable.slice(1)
       const errorVariable = checkVariable + 'Error';
-      const stateVariable = "is" + checkVariableTitleCase + "IsAvailable";
 
       if (inputValue !== '') {
         if ((checkVariable == 'email' && validator.isEmail(inputValue)) || checkVariable == 'username') {
           if (checkVariable == 'email') {
-            checkEmailAvailableThroughSocket(inputValue)
+              console.log('checking email through socket');
+            this.props.checkEmailAvailableThroughSocket(inputValue)
           } else {
-            checkUsernameAvailableThroughSocket(inputValue)
+            this.props.checkUsernameAvailableThroughSocket(inputValue)
           }
         }
       } else {
@@ -69,7 +68,7 @@ export const Register = React.createClass({
       const { dispatch } = this.props;
       const { usernameError, emailError, passwordError, confirmError } = this.state;
       if (usernameError === '' && emailError === '' && passwordError === '' && confirmError === '') {
-        dispatch(registerUserThroughSocket(email.value, username.value, password.value))
+        this.props.registerUserThroughSocket(email.value, username.value, password.value)
       } else {
         this.setState({
           registrationError: 'Please complete all fields and ensure they are valid.'
@@ -160,6 +159,8 @@ export const Register = React.createClass({
     }
 });
 
-export default Redux.connect((state) => {
-  return state;
+export default connect(emptyMapStateToProps, {
+    checkUsernameAvailableThroughSocket,
+    checkEmailAvailableThroughSocket,
+    registerUserThroughSocket
 })(Register);

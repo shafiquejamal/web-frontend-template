@@ -1,11 +1,12 @@
 import React from 'react';
-import * as Redux from 'react-redux';
+import { connect } from 'react-redux';
+
 import { logoutAllDevicesThroughSocket } from '../../../web-mobile-common/access/authentication/actionGenerators';
+import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
 
 export const LogoutAllDevices = React.createClass({
   componentWillMount() {
-    const { dispatch } = this.props;
-    dispatch(logoutAllDevicesThroughSocket());
+    this.props.logoutAllDevicesThroughSocket();
   },
   render() {
     return (
@@ -21,4 +22,4 @@ export const LogoutAllDevices = React.createClass({
   }
 });
 
-export default Redux.connect((state) => { return state; })(LogoutAllDevices)
+export default connect(emptyMapStateToProps, { logoutAllDevicesThroughSocket })(LogoutAllDevices)

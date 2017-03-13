@@ -1,8 +1,9 @@
 import React from 'react';
-import * as Redux from 'react-redux';
+import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router';
 
 import { resendActivationCodeThroughSocket } from '../../../web-mobile-common/access/activation/actionGenerators';
+import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
 
 export const ResendActivation = React.createClass({
   getInitialState() {
@@ -14,7 +15,6 @@ export const ResendActivation = React.createClass({
   },
   onSendPasswordResetLink(e) {
     e.preventDefault();
-    const { dispatch } = this.props;
     const email = this.refs.email.value;
     dispatch(resendActivationCodeThroughSocket(email))  },
   render() {
@@ -62,4 +62,5 @@ export const ResendActivation = React.createClass({
   }
 });
 
-export default Redux.connect((state) => { return state; })(ResendActivation);
+
+export default connect(emptyMapStateToProps, { resendActivationCodeThroughSocket })(ResendActivation);
