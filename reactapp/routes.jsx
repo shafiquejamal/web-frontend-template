@@ -16,7 +16,6 @@ import ResetPassword from './main/access/authentication/ResetPassword';
 import ManageAccount from './main/user/ManageAccount';
 import ChangePassword from './main/user/ChangePassword';
 import PasswordChangeSuccessful from './main/user/PasswordChangeSuccessful';
-import Chat from './main/chat/Chat';
 
 export const REGISTER_LINK = "/register";
 export const REGISTER_TEXT = "Register";
@@ -39,8 +38,6 @@ export const RESEND_ACTIVATION_LINK = "/resend-activation-link";
 export const RESEND_ACTIVATION_TEXT = "Re-send activation link";
 export const LOGOUT_ALL_DEVICES_LINK = "/logout-all-devices";
 export const LOGOUT_ALL_DEVICES_TEXT = "Logout-all-devices";
-export const CHAT_LINK = "/chat";
-export const CHAT_TEXT = "Chat";
 
 const requireLoggedIn = (nextState, replace, next) => {
   if (!localStorage.getItem('token')) {
@@ -72,6 +69,5 @@ export default (
     <Route path={REQUEST_RESET_PASSWORD_LINK} component={RequestResetPassword} />
     <Route path={RESET_PASSWORD_LINK} component={ResetPassword} />
     <Route path={RESEND_ACTIVATION_LINK} component={ResendActivation} />
-    <Route path={CHAT_LINK} component={Chat} />
 </Route>
 );

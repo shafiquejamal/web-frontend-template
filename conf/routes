@@ -9,17 +9,3 @@ GET     /                           home.HomeController.index
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 GET     /webjars/*file              controllers.WebJarAssets.at(file)
 
-POST    /register                   access.registration.RegistrationController.register
-POST    /resend-activation-link     access.registration.RegistrationController.resendActivationLink
-POST    /activate                   access.registration.RegistrationController.activate
-GET     /username/:username         access.registration.RegistrationController.usernameCheck(username:String)
-GET     /email/:email               access.registration.RegistrationController.emailCheck(email:String)
-
-POST    /authenticate               access.authentication.AuthenticationController.authenticate
-POST    /send-password-reset-link   access.authentication.AuthenticationController.sendPasswordResetLink
-POST    /reset-password             access.authentication.AuthenticationController.resetPassword
-POST    /logout-all-devices         access.authentication.AuthenticationController.logoutAllDevices
-
-POST    /change-password            user.UserController.changePassword
-GET     /chat                       chat.ChatController.chat(token: String)
-POST    /single-use-token           chat.ChatController.singleUseToken

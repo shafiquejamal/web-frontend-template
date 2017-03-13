@@ -11,9 +11,6 @@ import { WS_ROOT_URL } from './main/ConfigurationPaths';
 import { socketConfiguration } from './main/socket/socketConfiguration';
 import { messageListener } from './main/store/messageListensers';
 
-import { updateMessagesApplicationLoad } from './main/chat/chatMessagesActionGenerators';
-import { getContactsApplicationLoad, updateContacts } from './main/chat/chatContactsActionGenerators.jsx';
-
 import routes from './routes';
 import { LOGIN_USER } from './main/access/authentication/authenticationActionGenerators'
 
@@ -28,16 +25,6 @@ if (token) {
     email,
     username
   })
-}
-
-const messages = JSON.parse(localStorage.getItem('chatMessages'));
-if (messages) {
-    store.dispatch(updateMessagesApplicationLoad(messages));
-}
-
-const chatContacts = JSON.parse(localStorage.getItem('chatContacts'));
-if (chatContacts) {
-    store.dispatch(getContactsApplicationLoad(chatContacts));
 }
 
 require('style!css!sass!applicationStyles');

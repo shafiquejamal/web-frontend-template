@@ -2,7 +2,6 @@ import { WS_ROOT_URL } from './../ConfigurationPaths';
 import * as ChatActions from './socketActionGenerators';
 import * as ActionTypes from './socketActionTypes';
 import WSInstance from './WS';
-import { fetchNewChatMessages, requestContacts } from './requestNewData';
 
 export const socketConfiguration = (store) => {
     const socketConfig =  {
