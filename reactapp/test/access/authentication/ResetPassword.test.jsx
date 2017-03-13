@@ -4,7 +4,7 @@ var expect = require('expect');
 var $ = require('jQuery');
 var TestUtils = require('react-addons-test-utils');
 
-import { ResetPassword } from '../../../main/access/authentication/ResetPassword';
+import { ResetPassword } from '../../../main/ui/access/authentication/ResetPassword';
 
 describe('ResetPassword', () => {
 

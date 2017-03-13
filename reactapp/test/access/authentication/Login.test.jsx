@@ -4,7 +4,7 @@ var expect = require('expect');
 var $ = require('jQuery');
 var TestUtils = require('react-addons-test-utils');
 
-import { Login } from '../../../main/access/authentication/Login';
+import { Login } from '../../../main/ui/access/authentication/Login';
 
 describe('Login', () => {
 

@@ -6,8 +6,8 @@ import { REGISTER_LINK, REGISTER_TEXT, LOGIN_LINK, LOGIN_TEXT, LOGOUT_LINK, LOGO
 
 export const Template = React.createClass({
     renderLinks() {
-      const { authenticated, username } = this.props.auth;
-      if (!authenticated) {
+      const { user, username } = this.props.authentication;
+      if (!user) {
         return (
           <div><ul className="nav pull-right">
                 <li key="REGISTER_TEXT">

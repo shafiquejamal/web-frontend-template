@@ -4,7 +4,7 @@ var expect = require('expect');
 var $ = require('jQuery');
 var TestUtils = require('react-addons-test-utils');
 
-import { Activate } from '../../../main/access/registration/Activate';
+import { Activate } from '../../../main/ui/access/registration/Activate';
 
 describe('Activate', () => {
 

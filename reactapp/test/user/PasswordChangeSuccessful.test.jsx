@@ -4,7 +4,7 @@ var expect = require('expect');
 var $ = require('jQuery');
 var TestUtils = require('react-addons-test-utils');
 
-import { PasswordChangeSuccessful } from '../../main/user/PasswordChangeSuccessful';
+import { PasswordChangeSuccessful } from '../../main/ui/user/PasswordChangeSuccessful';
 
 describe('PasswordChangeSuccessful', () => {
 

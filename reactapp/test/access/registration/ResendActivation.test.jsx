@@ -4,7 +4,7 @@ var expect = require('expect');
 var $ = require('jQuery');
 var TestUtils = require('react-addons-test-utils');
 
-import { ResendActivation } from '../../../main/access/registration/ResendActivation';
+import { ResendActivation } from '../../../main/ui/access/registration/ResendActivation';
 
 describe('ResendActivation', () => {
 

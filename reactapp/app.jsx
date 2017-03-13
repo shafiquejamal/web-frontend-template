@@ -4,15 +4,15 @@ import { Provider } from 'react-redux';
 import { Router, hashHistory } from 'react-router';
 import promise from 'redux-promise';
 
-import WSInstance from './main/socket/WS';
-import * as ChatActions from './main/socket/socketActionGenerators';
-import * as ActionTypes from './main/socket/socketActionTypes';
-import { WS_ROOT_URL } from './main/ConfigurationPaths';
-import { socketConfiguration } from './main/socket/socketConfiguration';
-import { messageListener } from './main/store/messageListensers';
+import { webSocketWrapper } from './main/web-mobile-common/socket/webSocketWrapper.jsx';
+import {
+    authenticationListener } from './main/web-mobile-common/access/authentication/authenticationListener';
+import {
+    registrationListener } from './main/web-mobile-common/access/registration/registrationListener';
 
 import routes from './routes';
-import { LOGIN_USER } from './main/access/authentication/authenticationActionGenerators'
+import { LOGIN_USER } from './main/web-mobile-common/access/authentication/actionGenerators'
+
 
 var store = require('configureStore').configure();
 
@@ -36,7 +36,8 @@ ReactDOM.render(
     document.getElementById('app')
 );
 
-const sock = socketConfiguration(store);
+const sock = webSocketWrapper(store);
 
-store.subscribe(() => sock.wsListener());
-store.subscribe(() => messageListener(store));
+store.subscribe(() => sock.wSListener());
+store.subscribe(() => authenticationListener(store));
+store.subscribe(() => registrationListener(store));

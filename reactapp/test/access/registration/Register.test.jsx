@@ -4,7 +4,7 @@ var expect = require('expect');
 var $ = require('jQuery');
 var TestUtils = require('react-addons-test-utils');
 
-import { Register } from '../../../main/access/registration/Register';
+import { Register } from '../../../main/ui/access/registration/Register';
 
 describe('Register', () => {
 

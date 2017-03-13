@@ -4,7 +4,7 @@ var expect = require('expect');
 var $ = require('jQuery');
 var TestUtils = require('react-addons-test-utils');
 
-import { ManageAccount } from '../../main/user/ManageAccount';
+import { ManageAccount } from '../../main/ui/user/ManageAccount';
 
 describe('ManageAccount', () => {
 
