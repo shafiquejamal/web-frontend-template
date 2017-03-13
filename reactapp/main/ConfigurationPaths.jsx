@@ -1,6 +1,4 @@
-const PROTOCOL = process.env.FRONTENDTEMPLATE_PROTOCOL;
 const API_SERVER = process.env.FRONTENDTEMPLATE_API_SERVER;
 const WS_PROTOCOL = process.env.FRONTENDTEMPLATE_WS_PROTOCOL;
 
-export const ROOT_URL = `${PROTOCOL}://${API_SERVER}`;
-export const WS_ROOT_URL = `${WS_PROTOCOL}://${API_SERVER}`;
+export const WS_ROOT_URL = `${WS_PROTOCOL}://${API_SERVER}/messaging`;

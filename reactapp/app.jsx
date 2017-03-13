@@ -5,6 +5,7 @@ import { Router, hashHistory } from 'react-router';
 import promise from 'redux-promise';
 
 import { webSocketWrapper } from './main/web-mobile-common/socket/webSocketWrapper.jsx';
+import { connectToSocket } from './main/web-mobile-common/socket/actionGenerators.jsx';
 import {
     authenticationListener } from './main/web-mobile-common/access/authentication/authenticationListener';
 import {
@@ -41,3 +42,4 @@ const sock = webSocketWrapper(store);
 store.subscribe(() => sock.wSListener());
 store.subscribe(() => authenticationListener(store));
 store.subscribe(() => registrationListener(store));
+store.dispatch(connectToSocket());

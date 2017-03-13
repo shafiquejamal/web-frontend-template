@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import * as Redux from 'react-redux';
 
-import { REGISTER_LINK, REGISTER_TEXT, LOGIN_LINK, LOGIN_TEXT, LOGOUT_LINK, LOGOUT_TEXT, MANAGE_ACCOUNT_LINK, MANAGE_ACCOUNT_TEXT, CHAT_LINK, CHAT_TEXT } from '../routes';
+import { REGISTER_LINK, REGISTER_TEXT, LOGIN_LINK, LOGIN_TEXT, LOGOUT_LINK, LOGOUT_TEXT, MANAGE_ACCOUNT_LINK, MANAGE_ACCOUNT_TEXT } from '../routes';
 
 export const Template = React.createClass({
     renderLinks() {
@@ -21,11 +21,6 @@ export const Template = React.createClass({
       } else {
         return (
             <div>
-                <ul className="nav">
-                    <li key="CHAT_TEXT">
-                      <Link to={CHAT_LINK} className="nav-link">{CHAT_TEXT}</Link>
-                    </li>
-                </ul>
                 <ul className="nav pull-right">
                     <li key="MANAGE_ACCOUNT_TEXT">
                       <Link to={MANAGE_ACCOUNT_LINK} className="nav-link">{username}</Link>
