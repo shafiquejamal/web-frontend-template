@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-export const ActivationFailed = React.createClass({
+class ActivationFailed extends Component {
   render() {
     return (
         <div className="container">
@@ -14,6 +14,6 @@ export const ActivationFailed = React.createClass({
         </div>
     );
   }
-});
+}
 
 export default connect()(ActivationFailed);

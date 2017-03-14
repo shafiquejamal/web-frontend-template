@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { activateUserThroughSocket } from '../../../web-mobile-common/access/activation/actionGenerators';
 import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
 
-export const Activate = React.createClass({
+class Activate extends Component {
   componentWillMount() {
     const { email, code } = this.props.location.query;
     this.props.activateUserThroughSocket(email, code)
-  },
+  }
+
   render() {
     return (
         <div className="container">
@@ -21,6 +22,6 @@ export const Activate = React.createClass({
         </div>
     );
   }
-});
+}
 
 export default connect(emptyMapStateToProps, { activateUserThroughSocket })(Activate);

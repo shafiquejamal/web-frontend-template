@@ -5,16 +5,21 @@ import { Link, hashHistory } from 'react-router';
 import { changePasswordThroughSocket } from '../../web-mobile-common/access/authentication/actionGenerators';
 import { emptyMapStateToProps } from '../../web-mobile-common/common/misc.jsx';
 
-export const ChangePassword = React.createClass({
-    getInitialState: function() {
-      return {
-        changePasswordError: '',
-        currentpasswordError: '',
-        newpasswordError: '',
-        confirmError: ''
-      };
-    },
-    checkPassword: function(e) {
+class ChangePassword extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            changePasswordError: '',
+            currentpasswordError: '',
+            newpasswordError: '',
+            confirmError: ''
+        };
+
+        this.checkPassword = this.checkPassword.bind(this);
+        this.onChangePassword = this.onChangePassword.bind(this);
+    }
+
+    checkPassword(e) {
       const inputValue = e.target.value;
       const checkVariable = e.target.getAttribute('data-check').toLowerCase();
       const errorVariable = checkVariable + 'Error';
@@ -30,13 +35,15 @@ export const ChangePassword = React.createClass({
           confirmError: ''
         });
       }
-    },
+    }
+
     onChangePassword() {
       const { currentpasswordError, newpasswordError, confirmError} = this.state;
       if (currentpasswordError === '' && newpasswordError === '' && confirmError === '' ) {
         this.props.changePasswordThroughSocket(this.refs.currentpassword.value, this.refs.newpassword.value)
       }
-    },
+    }
+
     render() {
         return (
             <div className="container">
@@ -102,6 +109,6 @@ export const ChangePassword = React.createClass({
             </div>
         );
     }
-});
+}
 
 export default connect(emptyMapStateToProps, { changePasswordThroughSocket })(ChangePassword);

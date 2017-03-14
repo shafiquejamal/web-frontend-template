@@ -1,23 +1,28 @@
-import React from 'react';
-import * as Redux from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router';
 
 import { requestPasswordResetCodeThroughSocket } from '../../../web-mobile-common/access/authentication/actionGenerators';
 import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
 
-export const RequestResetPassword = React.createClass({
-  getInitialState() {
-    return {
-      error: '',
-      emailError: '',
-      linkSentMessage: ''
-    }
-  },
+class RequestResetPassword extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        error: '',
+        emailError: '',
+        linkSentMessage: ''
+    };
+
+    this.onSendPasswordResetLink = this.onSendPasswordResetLink.bind(this);
+  }
+
   onSendPasswordResetLink(e) {
     e.preventDefault();
     const email = this.refs.email.value;
     this.props.requestPasswordResetCodeThroughSocket(email)
-  },
+  }
+
   render() {
     return (
       <div className="container">
@@ -61,6 +66,6 @@ export const RequestResetPassword = React.createClass({
     );
 
   }
-});
+}
 
-export default Redux.connect(emptyMapStateToProps, { requestPasswordResetCodeThroughSocket })(RequestResetPassword);
+export default connect(emptyMapStateToProps, { requestPasswordResetCodeThroughSocket })(RequestResetPassword);

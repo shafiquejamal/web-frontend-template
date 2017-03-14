@@ -1,22 +1,28 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router';
 
 import { resendActivationCodeThroughSocket } from '../../../web-mobile-common/access/activation/actionGenerators';
 import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
 
-export const ResendActivation = React.createClass({
-  getInitialState() {
-    return {
+class  ResendActivation extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       error: '',
       emailError: '',
       linkSentMessage: ''
-    }
-  },
+    };
+
+    this.onSendPasswordResetLink = this.onSendPasswordResetLink.bind(this);
+  }
+
   onSendPasswordResetLink(e) {
     e.preventDefault();
     const email = this.refs.email.value;
-    dispatch(resendActivationCodeThroughSocket(email))  },
+    this.props.resendActivationCodeThroughSocket(email)
+  }
+
   render() {
     return (
       <div className="container">
@@ -60,7 +66,7 @@ export const ResendActivation = React.createClass({
     );
 
   }
-});
+}
 
 
 export default connect(emptyMapStateToProps, { resendActivationCodeThroughSocket })(ResendActivation);

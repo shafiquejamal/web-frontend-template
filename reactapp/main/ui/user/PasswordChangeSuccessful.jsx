@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { emptyMapStateToProps } from '../../web-mobile-common/common/misc.jsx';
 
-export const PasswordChangeSuccessful = React.createClass({
+class PasswordChangeSuccessful extends Component {
   render() {
     return (
       <div className="container">
@@ -16,6 +16,6 @@ export const PasswordChangeSuccessful = React.createClass({
       </div>
     );
   }
-});
+}
 
 export default connect(emptyMapStateToProps, { })(PasswordChangeSuccessful)

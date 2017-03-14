@@ -4,15 +4,20 @@ import { Link, hashHistory } from 'react-router';
 
 import { resetPasswordThroughSocket } from '../../../web-mobile-common/access/authentication/actionGenerators';
 
-export const ResetPassword = React.createClass({
-    getInitialState: function() {
-      return {
+class ResetPassword extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
         resetPasswordError: '',
         newpasswordError: '',
         confirmError: ''
       };
-    },
-    checkPassword: function(e) {
+
+      this.checkPassword = this.checkPassword.bind(this);
+      this.onResetPassword = this.onResetPassword.bind(this);
+    }
+
+    checkPassword(e) {
       const inputValue = e.target.value;
       const checkVariable = e.target.getAttribute('data-check').toLowerCase();
       const errorVariable = checkVariable + 'Error';
@@ -28,15 +33,16 @@ export const ResetPassword = React.createClass({
           confirmError: ''
         });
       }
-    },
+    }
+
     onResetPassword() {
       const { newpasswordError, confirmError} = this.state;
-      const { dispatch } = this.props;
       const { email, code } = this.props.location.query;
       if (newpasswordError === '' && confirmError === '' ) {
-        dispatch(resetPasswordThroughSocket(email, code, this.refs.newpassword.value))
+        this.props.resetPasswordThroughSocket(email, code, this.refs.newpassword.value);
       }
-    },
+    }
+
     render() {
         return (
             <div className="container">
@@ -89,8 +95,8 @@ export const ResetPassword = React.createClass({
             </div>
         );
     }
-});
+}
 
 export default Redux.connect((state) => {
   return state;
-}, { })(ResetPassword);
+}, { resetPasswordThroughSocket })(ResetPassword);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router';
 
@@ -6,16 +6,21 @@ import { REGISTER_LINK, REGISTER_TEXT, REQUEST_RESET_PASSWORD_LINK, REQUEST_RESE
 import { logUserInThroughSocket } from '../../../web-mobile-common/access/authentication/actionGenerators';
 import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
 
-export const Login = React.createClass({
-  getInitialState() {
-    return {
-      loginError: ''
-    }
-  },
+class Login extends Component {
+  constructor(props) {
+      super(props);
+      this.state = {
+        loginError: ''
+      };
+
+      this.onLogin = this.onLogin.bind(this);
+  }
+
   onLogin() {
     const { emailOrUsername, password } = this.refs;
     this.props.logUserInThroughSocket(emailOrUsername.value, password.value);
-  },
+  }
+
   render() {
     return (
       <div className="container">
@@ -62,7 +67,9 @@ export const Login = React.createClass({
                               <button type="button" className="btn btn-primary btn-lg btn-block login-button" onClick={this.onLogin}>Login</button>
                           </div>
                           <div className="login-register">
-                              <Link to={REGISTER_LINK}>{REGISTER_TEXT}</Link> <Link to={REQUEST_RESET_PASSWORD_LINK}>{REQUEST_RESET_PASSWORD_TEXT}</Link> <Link to={RESEND_ACTIVATION_LINK}>{RESEND_ACTIVATION_TEXT}</Link>
+                              <p><Link to={REGISTER_LINK}>{REGISTER_TEXT}</Link></p>
+                              <p><Link to={REQUEST_RESET_PASSWORD_LINK}>{REQUEST_RESET_PASSWORD_TEXT}</Link></p>
+                              <p><Link to={RESEND_ACTIVATION_LINK}>{RESEND_ACTIVATION_TEXT}</Link></p>
                           </div>
                       </form>
                   </div>
@@ -72,6 +79,6 @@ export const Login = React.createClass({
     );
 
   }
-});
+}
 
 export default connect(emptyMapStateToProps, { logUserInThroughSocket })(Login);

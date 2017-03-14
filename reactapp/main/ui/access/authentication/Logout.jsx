@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { logoutUser } from '../../../web-mobile-common/access/authentication/actionGenerators';
 import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
 
-export const Logout = React.createClass({
+class Logout extends Component {
+  constructor(props) {
+      super(props);
+      this.componentWillMount = this.componentWillMount.bind(this)
+  }
+
   componentWillMount() {
     this.props.logoutUser();
-  },
+  }
+
   render() {
     return (
       <div className="container">
@@ -20,6 +26,6 @@ export const Logout = React.createClass({
       </div>
     );
   }
-});
+}
 
 export default connect(emptyMapStateToProps, { logoutUser })(Logout)

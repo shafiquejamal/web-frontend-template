@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import * as Redux from 'react-redux';
 import { Link, hashHistory } from 'react-router';
 
 import { CHANGE_PASSWORD_LINK, CHANGE_PASSWORD_TEXT, LOGOUT_ALL_DEVICES_LINK, LOGOUT_ALL_DEVICES_TEXT } from '../../../routes';
 
-export const ManageAccount = React.createClass({
+class ManageAccount extends Component {
   render() {
     return (
       <div className="container">
@@ -35,7 +35,7 @@ export const ManageAccount = React.createClass({
       </div>
     );
   }
-});
+}
 
 const mapStateToProps = ({ authentication }) => { return { authentication } };
 

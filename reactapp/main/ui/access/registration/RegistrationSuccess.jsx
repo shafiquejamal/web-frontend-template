@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-export const RegistrationSuccess = React.createClass({
+class RegistrationSuccess extends Component {
   render() {
     return (
         <div className="container">
@@ -14,6 +14,6 @@ export const RegistrationSuccess = React.createClass({
         </div>
     );
   }
-});
+}
 
 export default connect()(RegistrationSuccess);

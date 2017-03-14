@@ -7,38 +7,49 @@ import { LOGIN_LINK, LOGIN_TEXT, REGISTRATION_SUCCESS_LINK, RESEND_ACTIVATION_LI
 import { registerUserThroughSocket, checkEmailAvailableThroughSocket, checkUsernameAvailableThroughSocket } from '../../../web-mobile-common/access/registration/actionGenerators';
 import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
 
-export const Register = React.createClass({
-    getInitialState: function() {
-      return {
-        isUsernameIsAvailable: false,
-        isEmailIsAvailable: false,
-        emailError: '',
-        usernameError: '',
-        passwordError: '',
-        confirmError: '',
-        registrationError: ''
-      };
-    },
-    checkEmail: function(e) {
+class Register extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isUsernameIsAvailable: false,
+            isEmailIsAvailable: false,
+            emailError: '',
+            usernameError: '',
+            passwordError: '',
+            confirmError: '',
+            registrationError: ''
+        };
+
+        this.checkEmail = this.checkEmail.bind(this);
+        this.checkAvailable = this.checkAvailable.bind(this);
+        this.checkPassword = this.checkPassword.bind(this);
+        this.onRegister = this.onRegister.bind(this);
+    }
+
+    checkEmail(e) {
       const inputValue = e.target.value;
       if (inputValue !== '' && !validator.isEmail(inputValue)) {
         this.setState({ emailError: 'Must be a valid email address' });
       } else if (!this.state.emailError) {
         this.setState({ emailError: '' });
       }
-    },
-    checkAvailable: function(e) {
+    }
+
+    checkAvailable(e) {
       const inputValue = e.target.value;
       const checkVariable = e.target.getAttribute('data-check').toLowerCase();
-      const checkVariableTitleCase = checkVariable.charAt(0).toUpperCase() + checkVariable.slice(1)
+      const checkVariableTitleCase = checkVariable.charAt(0).toUpperCase() + checkVariable.slice(1);
       const errorVariable = checkVariable + 'Error';
 
       if (inputValue !== '') {
         if ((checkVariable == 'email' && validator.isEmail(inputValue)) || checkVariable == 'username') {
           if (checkVariable == 'email') {
-              console.log('checking email through socket');
+            console.log('checking email through socket');
             this.props.checkEmailAvailableThroughSocket(inputValue)
           } else {
+              console.log('this', this);
+            console.log('props', this.props);
             this.props.checkUsernameAvailableThroughSocket(inputValue)
           }
         }
@@ -47,10 +58,9 @@ export const Register = React.createClass({
           [errorVariable]: checkVariableTitleCase + ' is required'
         });
       }
+    }
 
-
-    },
-    checkPassword: function(e) {
+    checkPassword(e) {
       const inputValue = e.target.value;
       const checkVariable = e.target.getAttribute('data-check').toLowerCase();
       const checkVariableTitleCase = checkVariable.charAt(0).toUpperCase() + checkVariable.slice(1)
@@ -63,9 +73,9 @@ export const Register = React.createClass({
           confirmError: 'Passwords do not match'
         });
       }
-    },
+    }
+
     onRegister() {
-      const { dispatch } = this.props;
       const { usernameError, emailError, passwordError, confirmError } = this.state;
       if (usernameError === '' && emailError === '' && passwordError === '' && confirmError === '') {
         this.props.registerUserThroughSocket(email.value, username.value, password.value)
@@ -74,8 +84,8 @@ export const Register = React.createClass({
           registrationError: 'Please complete all fields and ensure they are valid.'
         });
       }
+    }
 
-    },
     render() {
         return (
             <div className="container">
@@ -157,7 +167,9 @@ export const Register = React.createClass({
             </div>
         );
     }
-});
+}
+
+
 
 export default connect(emptyMapStateToProps, {
     checkUsernameAvailableThroughSocket,
