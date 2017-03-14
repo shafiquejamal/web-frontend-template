@@ -18,7 +18,7 @@ import {
   updateEmailIsAvailableErrorActivation,
   updateActivationError } from '../activation/actionGenerators';
 
-export const registrationListener = (store) => {
+export const registrationListener = (store, redirects) => {
     const lastAction = store.getState().lastAction;
     console.log('registrationListener: action', lastAction);
     switch (lastAction.type) {
@@ -35,7 +35,7 @@ export const registrationListener = (store) => {
         break;
       }
       case REGISTRATION_SUCCESSFUL: {
-        // Actions.activation();
+        redirects.activateForm();
         break;
       }
       case REGISTRATION_FAILED: {
@@ -43,7 +43,7 @@ export const registrationListener = (store) => {
         break;
       }
       case ACCOUNT_ACTIVATION_SUCCESSFUL: {
-        // Actions.authentication();
+        redirects.authentication();
         break;
       }
       case ACTIVATION_FAILED: {

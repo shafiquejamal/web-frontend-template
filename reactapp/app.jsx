@@ -13,6 +13,7 @@ import {
 
 import routes from './routes';
 import { LOGIN_USER } from './main/web-mobile-common/access/authentication/actionGenerators'
+import { LOGIN_LINK, ACTIVATE_FORM_LINK, RESET_PASSWORD_LINK, MANAGE_ACCOUNT_LINK } from './routes.jsx';
 
 
 var store = require('configureStore').configure();
@@ -38,8 +39,15 @@ ReactDOM.render(
 );
 
 const sock = webSocketWrapper(store);
+const redirects = {
+    activateForm: () => hashHistory.push(ACTIVATE_FORM_LINK),
+    authentication: () => hashHistory.push(LOGIN_LINK),
+    resetPassword: () => hashHistory.push(RESET_PASSWORD_LINK),
+    login: () => hashHistory.push(LOGIN_LINK),
+    domain: () => hashHistory.push(MANAGE_ACCOUNT_LINK)
+};
 
 store.subscribe(() => sock.wSListener());
-store.subscribe(() => authenticationListener(store));
-store.subscribe(() => registrationListener(store));
+store.subscribe(() => authenticationListener(store, redirects));
+store.subscribe(() => registrationListener(store, redirects));
 store.dispatch(connectToSocket());

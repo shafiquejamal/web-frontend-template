@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import * as Redux from 'react-redux';
+import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router';
 
 import { CHANGE_PASSWORD_LINK, CHANGE_PASSWORD_TEXT, LOGOUT_ALL_DEVICES_LINK, LOGOUT_ALL_DEVICES_TEXT } from '../../../routes';
@@ -17,8 +17,8 @@ class ManageAccount extends Component {
                           <div className="cols-sm-10">
                             <div className="form-group">
                               <div className={`input-group`}>
-                                <p>Username: {this.props.authentication.username}</p>
-                                <p>Email: {this.props.authentication.email}</p>
+                                <p>Username: {this.props.username}</p>
+                                <p>Email: {this.props.email}</p>
                                 <div className="login-register">
                                     <Link to={CHANGE_PASSWORD_LINK}>{CHANGE_PASSWORD_TEXT}</Link>
                                 </div>
@@ -37,6 +37,9 @@ class ManageAccount extends Component {
   }
 }
 
-const mapStateToProps = ({ authentication }) => { return { authentication } };
+const mapStateToProps = ({ authentication }) => {
+    const { username, email } = authentication;
+    return { username, email }
+};
 
-export default Redux.connect(mapStateToProps, { })(ManageAccount)
+export default connect(mapStateToProps, { })(ManageAccount)

@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import validator from 'validator';
 
-import { LOGIN_LINK, LOGIN_TEXT, REGISTRATION_SUCCESS_LINK, RESEND_ACTIVATION_LINK, RESEND_ACTIVATION_TEXT } from '../../../../routes';
+import { LOGIN_LINK, LOGIN_TEXT, REGISTRATION_SUCCESS_LINK, RESEND_ACTIVATION_LINK, RESEND_ACTIVATION_TEXT, ACTIVATE_FORM_LINK, ACTIVATE_FORM_TEXT } from '../../../../routes';
 import { registerUserThroughSocket, checkEmailAvailableThroughSocket, checkUsernameAvailableThroughSocket } from '../../../web-mobile-common/access/registration/actionGenerators';
-import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
 
 class Register extends Component {
 
@@ -78,7 +77,7 @@ class Register extends Component {
     onRegister() {
       const { usernameError, emailError, passwordError, confirmError } = this.state;
       if (usernameError === '' && emailError === '' && passwordError === '' && confirmError === '') {
-        this.props.registerUserThroughSocket(email.value, username.value, password.value)
+        this.props.registerUserThroughSocket(username.value, email.value, password.value)
       } else {
         this.setState({
           registrationError: 'Please complete all fields and ensure they are valid.'
@@ -110,7 +109,8 @@ class Register extends Component {
                                             <input type="text" className="form-control" name="email" id="email" placeholder="Enter your Email" data-check="email" onBlur={this.checkEmail} onChange={this.checkAvailable} />
                                         </div>
                                         <div className="text-help">
-                                          {this.state.emailError}
+                                            {this.state.emailError}
+                                            {this.props.emailAvailableError}
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +123,8 @@ class Register extends Component {
                                             <input type="text" className="form-control" name="username" id="username" ref="username" placeholder="Choose a Username" data-check="username" onBlur={this.checkAvailable} onChange={this.checkAvailable}/>
                                         </div>
                                         <div className="text-help">
-                                          {this.state.usernameError}
+                                            {this.state.usernameError}
+                                            {this.props.usernameAvailableError}
                                         </div>
                                     </div>
                                 </div>
@@ -158,7 +159,9 @@ class Register extends Component {
                                     <button type="button" className="btn btn-primary btn-lg btn-block login-button" onClick={this.onRegister}>Register</button>
                                 </div>
                                 <div className="login-register">
-                                    <Link to={LOGIN_LINK}>{LOGIN_TEXT}</Link> <Link to={RESEND_ACTIVATION_LINK}>{RESEND_ACTIVATION_TEXT}</Link>
+                                    <p><Link to={LOGIN_LINK}>{LOGIN_TEXT}</Link></p>
+                                    <p><Link to={RESEND_ACTIVATION_LINK}>{RESEND_ACTIVATION_TEXT}</Link></p>
+                                    <p><Link to={ACTIVATE_FORM_LINK}>{ACTIVATE_FORM_TEXT}</Link></p>
                                 </div>
                             </form>
                         </div>
@@ -170,8 +173,12 @@ class Register extends Component {
 }
 
 
+const mapStateToProps = ({ registration }) => {
+    const { emailAvailableError, usernameAvailableError } = registration;
+    return { emailAvailableError, usernameAvailableError }
+};
 
-export default connect(emptyMapStateToProps, {
+export default connect(mapStateToProps, {
     checkUsernameAvailableThroughSocket,
     checkEmailAvailableThroughSocket,
     registerUserThroughSocket

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
-import * as Redux from 'react-redux';
+import { connect } from 'react-redux';
 
 import { REGISTER_LINK, REGISTER_TEXT, LOGIN_LINK, LOGIN_TEXT, LOGOUT_LINK, LOGOUT_TEXT, MANAGE_ACCOUNT_LINK, MANAGE_ACCOUNT_TEXT } from '../routes';
 
 export const Template = React.createClass({
     renderLinks() {
-      const { user, username } = this.props.authentication;
+      const { user, username } = this.props;
       if (!user) {
         return (
           <div><ul className="nav pull-right">
@@ -56,4 +56,9 @@ export const Template = React.createClass({
     }
 });
 
-export default Redux.connect((state) => {return state;})(Template);
+const mapStateToProps = ({ authentication }) => {
+  const { user, username } = authentication;
+  return { user, username }
+};
+
+export default connect(mapStateToProps, {  })(Template);

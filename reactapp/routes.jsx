@@ -7,6 +7,7 @@ import Register from './main/ui/access/registration/Register';
 import ResendActivation from './main/ui/access/registration/ResendActivation';
 import RegistrationSuccess from './main/ui/access/registration/RegistrationSuccess';
 import Activate from './main/ui/access/registration/Activate';
+import ActivateForm from './main/ui/access/registration/ActivateForm';
 import ActivationFailed from './main/ui/access/registration/ActivationFailed';
 import Login from './main/ui/access/authentication/Login';
 import Logout from './main/ui/access/authentication/Logout';
@@ -24,6 +25,8 @@ export const LOGIN_TEXT = "Login";
 export const LOGOUT_LINK = "/logout";
 export const LOGOUT_TEXT = "Logout";
 export const REGISTRATION_SUCCESS_LINK = "/registration-success";
+export const ACTIVATE_FORM_LINK = '/activate-form';
+export const ACTIVATE_FORM_TEXT = 'Activate account';
 export const MANAGE_ACCOUNT_LINK = "/manage-account";
 export const MANAGE_ACCOUNT_TEXT = "My account";
 export const CHANGE_PASSWORD_LINK = "/change-password";
@@ -39,35 +42,22 @@ export const RESEND_ACTIVATION_TEXT = "Re-send activation link";
 export const LOGOUT_ALL_DEVICES_LINK = "/logout-all-devices";
 export const LOGOUT_ALL_DEVICES_TEXT = "Logout-all-devices";
 
-const requireLoggedIn = (nextState, replace, next) => {
-  if (!localStorage.getItem('token')) {
-    replace(LOGIN_LINK);
-  }
-  next();
-};
-
-const requireLoggedOut = (nextState, replace, next) => {
-  if (localStorage.getItem('token')) {
-    replace(LOGOUT_LINK);
-  }
-  next();
-};
-
 export default (
 <Route path="/" component={Template}>
     <IndexRoute component={LoginOrRegister} />
     <Route path={REGISTER_LINK} component={Register} />
     <Route path={REGISTRATION_SUCCESS_LINK} component={RegistrationSuccess} />
-    <Route path={LOGIN_LINK} component={Login} onEnter={requireLoggedOut} />
+    <Route path={LOGIN_LINK} component={Login}  />
     <Route path={LOGOUT_LINK} component={Logout} />
     <Route path={LOGOUT_ALL_DEVICES_LINK} component={LogoutAllDevices} />
-    <Route path={MANAGE_ACCOUNT_LINK} component={ManageAccount} onEnter={requireLoggedIn} />
-    <Route path={CHANGE_PASSWORD_LINK} component={ChangePassword} onEnter={requireLoggedIn} />
-    <Route path={PASSWORD_CHANGE_SUCCESSFUL_LINK} component={PasswordChangeSuccessful} onEnter={requireLoggedIn} />
+    <Route path={MANAGE_ACCOUNT_LINK} component={ManageAccount}  />
+    <Route path={CHANGE_PASSWORD_LINK} component={ChangePassword} />
+    <Route path={PASSWORD_CHANGE_SUCCESSFUL_LINK} component={PasswordChangeSuccessful} />
     <Route path={ACTIVATE_LINK} component={Activate} />
     <Route path={ACTIVATION_FAILED_LINK} component={ActivationFailed} />
     <Route path={REQUEST_RESET_PASSWORD_LINK} component={RequestResetPassword} />
     <Route path={RESET_PASSWORD_LINK} component={ResetPassword} />
     <Route path={RESEND_ACTIVATION_LINK} component={ResendActivation} />
+    <Route path={ACTIVATE_FORM_LINK} component={ActivateForm} />
 </Route>
 );
