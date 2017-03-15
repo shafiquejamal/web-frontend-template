@@ -3,9 +3,16 @@ import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router';
 
 import { requestPasswordResetCodeThroughSocket } from '../../../web-mobile-common/access/authentication/actionGenerators';
-import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
+import { LOGOUT_LINK } from '../../../../routes';
 
 class RequestResetPassword extends Component {
+
+    componentWillMount() {
+        if (this.props.user) {
+            hashHistory.push(LOGOUT_LINK)
+        }
+    }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -68,4 +75,9 @@ class RequestResetPassword extends Component {
   }
 }
 
-export default connect(emptyMapStateToProps, { requestPasswordResetCodeThroughSocket })(RequestResetPassword);
+const mapStateToProps = ({ authentication }) => {
+    const { user } = authentication;
+    return { user }
+};
+
+export default connect(mapStateToProps, { requestPasswordResetCodeThroughSocket })(RequestResetPassword);

@@ -3,9 +3,16 @@ import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router';
 
 import { resendActivationCodeThroughSocket } from '../../../web-mobile-common/access/activation/actionGenerators';
-import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
+import { LOGOUT_LINK } from '../../../../routes';
 
-class  ResendActivation extends Component {
+class ResendActivation extends Component {
+
+    componentWillMount() {
+        if (this.props.user) {
+            hashHistory.push(LOGOUT_LINK)
+        }
+    }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -68,5 +75,9 @@ class  ResendActivation extends Component {
   }
 }
 
+const mapStateToProps = ({ authentication }) => {
+    const { user } = authentication;
+    return { user }
+};
 
-export default connect(emptyMapStateToProps, { resendActivationCodeThroughSocket })(ResendActivation);
+export default connect(mapStateToProps, { resendActivationCodeThroughSocket })(ResendActivation);

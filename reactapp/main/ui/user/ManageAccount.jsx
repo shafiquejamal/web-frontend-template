@@ -2,9 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router';
 
-import { CHANGE_PASSWORD_LINK, CHANGE_PASSWORD_TEXT, LOGOUT_ALL_DEVICES_LINK, LOGOUT_ALL_DEVICES_TEXT } from '../../../routes';
+import { CHANGE_PASSWORD_LINK, CHANGE_PASSWORD_TEXT, LOGOUT_ALL_DEVICES_LINK, LOGOUT_ALL_DEVICES_TEXT, LOGOUT_LINK } from '../../../routes';
 
 class ManageAccount extends Component {
+
+    componentWillMount() {
+        if (!this.props.user) {
+            hashHistory.push(LOGOUT_LINK)
+        }
+    }
+
   render() {
     return (
       <div className="container">
@@ -38,8 +45,8 @@ class ManageAccount extends Component {
 }
 
 const mapStateToProps = ({ authentication }) => {
-    const { username, email } = authentication;
-    return { username, email }
+    const { user, username, email } = authentication;
+    return { user, username, email }
 };
 
 export default connect(mapStateToProps, { })(ManageAccount)

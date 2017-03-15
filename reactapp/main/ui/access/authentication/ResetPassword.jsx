@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
-import * as Redux from 'react-redux';
+import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router';
 
 import { resetPasswordThroughSocket } from '../../../web-mobile-common/access/authentication/actionGenerators';
+import { LOGOUT_LINK } from '../../../../routes';
 
 class ResetPassword extends Component {
+
+    componentWillMount() {
+        if (this.props.user) {
+            hashHistory.push(LOGOUT_LINK)
+        }
+    }
+
     constructor(props) {
       super(props);
       this.state = {
@@ -97,6 +105,9 @@ class ResetPassword extends Component {
     }
 }
 
-export default Redux.connect((state) => {
-  return state;
-}, { resetPasswordThroughSocket })(ResetPassword);
+const mapStateToProps = ({ authentication }) => {
+    const { user } = authentication;
+    return { user }
+};
+
+export default connect(mapStateToProps, { resetPasswordThroughSocket })(ResetPassword);

@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { hashHistory } from 'react-router';
 
 import { activateUserThroughSocket } from '../../../web-mobile-common/access/activation/actionGenerators';
-import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
+import { LOGOUT_LINK } from '../../../../routes';
 
 class Activate extends Component {
+
   componentWillMount() {
-    const { email, code } = this.props.location.query;
-    this.props.activateUserThroughSocket(email, code)
+      if (this.props.user) {
+          hashHistory.push(LOGOUT_LINK)
+      } else {
+          const { email, code } = this.props.location.query;
+          this.props.activateUserThroughSocket(email, code)
+      }
   }
 
   render() {
@@ -24,4 +30,9 @@ class Activate extends Component {
   }
 }
 
-export default connect(emptyMapStateToProps, { activateUserThroughSocket })(Activate);
+const mapStateToProps = ({ authentication }) => {
+    const { user } = authentication;
+    return { user }
+};
+
+export default connect(mapStateToProps, { activateUserThroughSocket })(Activate);

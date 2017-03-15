@@ -2,11 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router';
 
-import { REGISTER_LINK, REGISTER_TEXT, REQUEST_RESET_PASSWORD_LINK, REQUEST_RESET_PASSWORD_TEXT, MANAGE_ACCOUNT_LINK, RESEND_ACTIVATION_LINK, RESEND_ACTIVATION_TEXT, ACTIVATE_FORM_LINK, ACTIVATE_FORM_TEXT } from '../../../../routes';
+import { REGISTER_LINK, REGISTER_TEXT, REQUEST_RESET_PASSWORD_LINK, REQUEST_RESET_PASSWORD_TEXT, MANAGE_ACCOUNT_LINK, RESEND_ACTIVATION_LINK, RESEND_ACTIVATION_TEXT, ACTIVATE_FORM_LINK, ACTIVATE_FORM_TEXT, LOGOUT_LINK } from '../../../../routes';
 import { logUserInThroughSocket } from '../../../web-mobile-common/access/authentication/actionGenerators';
-import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
 
 class Login extends Component {
+
+    componentWillMount() {
+        if (this.props.user) {
+            hashHistory.push(LOGOUT_LINK)
+        }
+    }
+
   constructor(props) {
       super(props);
       this.state = {
@@ -100,4 +106,9 @@ class Login extends Component {
   }
 }
 
-export default connect(emptyMapStateToProps, { logUserInThroughSocket })(Login);
+const mapStateToProps = ({ authentication }) => {
+    const { user } = authentication;
+    return { user }
+};
+
+export default connect(mapStateToProps, { logUserInThroughSocket })(Login);

@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, hashHistory } from 'react-router';
 import validator from 'validator';
 
-import { LOGIN_LINK, LOGIN_TEXT, REGISTRATION_SUCCESS_LINK, RESEND_ACTIVATION_LINK, RESEND_ACTIVATION_TEXT, ACTIVATE_FORM_LINK, ACTIVATE_FORM_TEXT } from '../../../../routes';
+import { LOGIN_LINK, LOGIN_TEXT, REGISTRATION_SUCCESS_LINK, RESEND_ACTIVATION_LINK, RESEND_ACTIVATION_TEXT, ACTIVATE_FORM_LINK, ACTIVATE_FORM_TEXT, LOGOUT_LINK } from '../../../../routes';
 import { registerUserThroughSocket, checkEmailAvailableThroughSocket, checkUsernameAvailableThroughSocket } from '../../../web-mobile-common/access/registration/actionGenerators';
 
 class Register extends Component {
+
+    componentWillMount() {
+        if (this.props.user) {
+            hashHistory.push(LOGOUT_LINK)
+        }
+    }
 
     constructor(props) {
         super(props);
@@ -173,9 +179,10 @@ class Register extends Component {
 }
 
 
-const mapStateToProps = ({ registration }) => {
+const mapStateToProps = ({ registration, authentication }) => {
+    const { user } = authentication;
     const { emailAvailableError, usernameAvailableError } = registration;
-    return { emailAvailableError, usernameAvailableError }
+    return { user, emailAvailableError, usernameAvailableError }
 };
 
 export default connect(mapStateToProps, {

@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { hashHistory } from 'react-router';
+
+import { LOGOUT_LINK } from '../../../../routes';
 
 class RegistrationSuccess extends Component {
+
+    componentWillMount() {
+        if (this.props.user) {
+            hashHistory.push(LOGOUT_LINK)
+        }
+    }
+
   render() {
     return (
         <div className="container">
@@ -16,4 +26,9 @@ class RegistrationSuccess extends Component {
   }
 }
 
-export default connect()(RegistrationSuccess);
+const mapStateToProps = ({ authentication }) => {
+    const { user } = authentication;
+    return { user }
+};
+
+export default connect(mapStateToProps, { })(RegistrationSuccess);

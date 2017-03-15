@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, hashHistory } from 'react-router';
 import validator from 'validator';
 
-import { LOGIN_LINK, LOGIN_TEXT, REGISTRATION_SUCCESS_LINK, RESEND_ACTIVATION_LINK, RESEND_ACTIVATION_TEXT } from '../../../../routes';
+import { LOGIN_LINK, LOGIN_TEXT, REGISTRATION_SUCCESS_LINK, RESEND_ACTIVATION_LINK, RESEND_ACTIVATION_TEXT, LOGOUT_LINK } from '../../../../routes';
 import { activateUserThroughSocket } from '../../../web-mobile-common/access/activation/actionGenerators';
 import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
 
 class ActivateForm extends Component {
+
+    componentWillMount() {
+        if (this.props.user) {
+            hashHistory.push(LOGOUT_LINK)
+        }
+    }
 
     constructor(props) {
         super(props);
@@ -115,9 +121,10 @@ class ActivateForm extends Component {
     }
 }
 
-const mapStateToProps = ({ activation }) => {
+const mapStateToProps = ({ activation, authentication }) => {
+    const { user } = authentication;
     const { error } = activation;
-    return { error };
+    return { user, error };
 };
 
 export default connect(mapStateToProps, {
