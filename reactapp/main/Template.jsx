@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
-import { REGISTER_LINK, REGISTER_TEXT, LOGIN_LINK, LOGIN_TEXT, LOGOUT_LINK, LOGOUT_TEXT, MANAGE_ACCOUNT_LINK, MANAGE_ACCOUNT_TEXT, FLOW_LINK, FLOW_TEXT } from '../routes';
+import { REGISTER_LINK, REGISTER_TEXT, LOGIN_LINK, LOGIN_TEXT, LOGOUT_LINK, LOGOUT_TEXT, MANAGE_ACCOUNT_LINK, MANAGE_ACCOUNT_TEXT, TWITTER_SEARCH_LINK, TWITTER_SEARCH_TEXT } from '../routes';
 
 export const Template = React.createClass({
     renderLinks() {
@@ -28,8 +28,8 @@ export const Template = React.createClass({
                     <li key="LOGOUT_TEXT">
                       <Link to={LOGOUT_LINK} className="nav-link">{LOGOUT_TEXT}</Link>
                     </li>
-                    <li key="FLOW_TEXT">
-                      <Link to={FLOW_LINK} className="nav-link">{FLOW_TEXT}</Link>
+                    <li key="TWITTER_SEARCH_TEXT">
+                      <Link to={TWITTER_SEARCH_LINK} className="nav-link">{TWITTER_SEARCH_TEXT}</Link>
                     </li>
                 </ul>
             </div>

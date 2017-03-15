@@ -5,3 +5,9 @@ export const searchTwitter = (searchTerm) => {
         messageType: 'toServerSearchTwitter',
         searchTerm });
 };
+
+export const saveSearchTerm = (searchTerm) => {
+    return postObject({
+        messageType: 'toServerSaveSearchTerm',
+        searchTerm });
+};

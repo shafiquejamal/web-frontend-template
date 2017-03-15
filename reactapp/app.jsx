@@ -13,7 +13,7 @@ import {
 
 import routes from './routes';
 import { LOGIN_USER } from './main/web-mobile-common/access/authentication/actionGenerators'
-import { LOGIN_LINK, ACTIVATE_FORM_LINK, RESET_PASSWORD_LINK, MANAGE_ACCOUNT_LINK, FLOW_LINK } from './routes.jsx';
+import { LOGIN_LINK, ACTIVATE_FORM_LINK, RESET_PASSWORD_LINK, MANAGE_ACCOUNT_LINK, TWITTER_SEARCH_LINK } from './routes.jsx';
 
 
 var store = require('configureStore').configure();
@@ -44,7 +44,7 @@ const redirects = {
     authentication: () => hashHistory.push(LOGIN_LINK),
     resetPassword: () => hashHistory.push(RESET_PASSWORD_LINK),
     login: () => hashHistory.push(LOGIN_LINK),
-    domain: () => hashHistory.push(FLOW_LINK)
+    domain: () => hashHistory.push(TWITTER_SEARCH_LINK)
 };
 
 store.subscribe(() => sock.wSListener());

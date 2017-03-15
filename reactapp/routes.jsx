@@ -17,7 +17,7 @@ import ResetPassword from './main/ui/access/authentication/ResetPassword';
 import ManageAccount from './main/ui/user/ManageAccount';
 import ChangePassword from './main/ui/user/ChangePassword';
 import PasswordChangeSuccessful from './main/ui/user/PasswordChangeSuccessful';
-import Flow from './main/ui/domain/Flow';
+import TwitterSearch from './main/ui/domain/TwitterSearch';
 
 export const REGISTER_LINK = "/register";
 export const REGISTER_TEXT = "Register";
@@ -42,8 +42,8 @@ export const RESEND_ACTIVATION_LINK = "/resend-activation-link";
 export const RESEND_ACTIVATION_TEXT = "Re-send activation link";
 export const LOGOUT_ALL_DEVICES_LINK = "/logout-all-devices";
 export const LOGOUT_ALL_DEVICES_TEXT = "Logout-all-devices";
-export const FLOW_LINK = "/flow";
-export const FLOW_TEXT = "Flow";
+export const TWITTER_SEARCH_LINK = "/twitter-search";
+export const TWITTER_SEARCH_TEXT = "TwitterSearch";
 
 export default (
 <Route path="/" component={Template}>
@@ -62,6 +62,6 @@ export default (
     <Route path={RESET_PASSWORD_LINK} component={ResetPassword} />
     <Route path={RESEND_ACTIVATION_LINK} component={ResendActivation} />
     <Route path={ACTIVATE_FORM_LINK} component={ActivateForm} />
-    <Route path={FLOW_LINK} component={Flow} />
+    <Route path={TWITTER_SEARCH_LINK} component={TwitterSearch} />
 </Route>
 );
