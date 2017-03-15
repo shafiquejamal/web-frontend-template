@@ -19,12 +19,9 @@ import {
   PASSWORD_CHANGE_SUCCESSFUL } from './types';
 
 export const authenticationListener = (store, redirects) => {
-    console.log("authenticationListener getState", store.getState());
     const lastAction = store.getState().lastAction;
-    console.log("authenticationListener lastActionType", lastAction.type);
     switch (lastAction.type) {
       case LOGIN_SUCCESSFUL: {
-        console.log("authenticationListener Login successful");
         store.dispatch(loginUser(lastAction.payload));
         redirects.domain();
         break;

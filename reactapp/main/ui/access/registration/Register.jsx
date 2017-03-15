@@ -50,11 +50,8 @@ class Register extends Component {
       if (inputValue !== '') {
         if ((checkVariable == 'email' && validator.isEmail(inputValue)) || checkVariable == 'username') {
           if (checkVariable == 'email') {
-            console.log('checking email through socket');
             this.props.checkEmailAvailableThroughSocket(inputValue)
           } else {
-              console.log('this', this);
-            console.log('props', this.props);
             this.props.checkUsernameAvailableThroughSocket(inputValue)
           }
         }

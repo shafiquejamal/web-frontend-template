@@ -5,7 +5,6 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
-  console.log('socket reducer action', action);
   switch (action.type) {
     case IS_CONNECTED:
       return {
