@@ -8,13 +8,19 @@ const INITIAL_STATE = {
 
 const sortDesc = (a, b) => { return b.createdAt - a.createdAt };
 
+const removeDuplicates = (myArr, prop) => {
+    return myArr.filter((obj, pos, arr) => {
+        return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
+    });
+};
+
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case ADD_SEARCH_TERM:
             const newSearchTerm = action.payload;
             return {
                 ...state,
-                savedSearchTerms: state.savedSearchTerms.concat([newSearchTerm]).sort(sortDesc)
+                savedSearchTerms: removeDuplicates(state.savedSearchTerms.concat([newSearchTerm]).sort(sortDesc), 'createdAt')
             };
         case CLEAR_SEARCH_TERMS:
             return {
