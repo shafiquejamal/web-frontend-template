@@ -9,24 +9,24 @@ class TwitterSearch extends Component {
 
     constructor(props) {
         super(props);
-        this.onSearchTermChange = this.onSearchTermChange.bind(this);
+        this.onSearchTextChange = this.onSearchTextChange.bind(this);
         this.renderSavedSearches = this.renderSavedSearches.bind(this);
         this.renderSearchResults = this.renderSearchResults.bind(this);
         this.onSaveSearchResult = this.onSaveSearchResult.bind(this);
         this.onLucky = this.onLucky(this);
     }
 
-    onSearchTermChange() {
-        const text = this.refs.searchTerm.value.trim();
-        this.props.searchTwitter(text);
+    onSearchTextChange() {
+        const searchText = this.refs.searchText.value.trim();
+        // this.props.searchTwitter(searchText);
     }
 
     renderSavedSearches() {
         const { savedSearchTerms } = this.props;
         console.log('savedSearchTerms', savedSearchTerms);
         return savedSearchTerms.map( savedSearchTerm => {
-            return (<li key={savedSearchTerm.time}>
-                {savedSearchTerm.term}
+            return (<li key={savedSearchTerm.createdAt}>
+                {savedSearchTerm.searchText}
             </li>);
         })
     }
@@ -42,9 +42,11 @@ class TwitterSearch extends Component {
     }
 
     onSaveSearchResult() {
-        const searchTermToSave = this.refs.searchTerm.value.trim();
-        this.props.saveSearchTerm(searchTermToSave);
-        this.refs.searchTerm.value = '';
+        const searchTextToSave = this.refs.searchText.value.trim();
+        if (searchTextToSave !== '') {
+            this.props.saveSearchTerm(searchTextToSave)
+        }
+        this.refs.searchText.value = '';
     }
 
     onLucky() {
@@ -63,7 +65,7 @@ class TwitterSearch extends Component {
                     <div className="col-lg-6">
                         <div className={`input-group`}>
                             <span className="input-group-addon"><i className="fa fa-search fa" aria-hidden="true"></i></span>
-                            <input type="text" className="form-control" name="searchTerm" id="searchTerm" ref="searchTerm"  placeholder="Enter search term" onChange={this.onSearchTermChange} />
+                            <input type="text" className="form-control" name="searchText" id="searchText" ref="searchText"  placeholder="Enter search term" onChange={this.onSearchTextChange} />
                         </div>
                     </div>
                     <div className="col-lg-2">

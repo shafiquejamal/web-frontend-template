@@ -5,9 +5,8 @@ import * as ActionTypes from './types';
 import {
   startUpActions,
   setIsConnected,
-  setIsDisconnected,
-  authenticateToSocket } from './actionGenerators';
-import { logoutUser } from '../access/authentication/actionGenerators';
+  setIsDisconnected } from './actionGenerators';
+import { logoutUser, authenticateToSocket } from '../access/authentication/actionGenerators';
 
 export const webSocketWrapper = (store) => {
   const wrapper = {

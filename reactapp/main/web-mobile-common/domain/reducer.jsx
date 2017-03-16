@@ -1,9 +1,11 @@
 import { ADD_SEARCH_TERM, CLEAR_SEARCH_TERMS, SEARCH_RESULTS } from './types';
 
 const INITIAL_STATE = {
-    savedSearchTerms: [ { term: 'term one', time: 1 }, { term: 'term two', time: 2 } ],
-    searchResults: [ 'result uno', 'result dos']
+    savedSearchTerms: [],
+    searchResults: []
 };
+
+const sortDesc = (a, b) => { return b.createdAt - a.createdAt };
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
@@ -11,7 +13,7 @@ export default (state = INITIAL_STATE, action) => {
             const newSearchTerm = action.payload;
             return {
                 ...state,
-                savedSearchTerms: state.savedSearchTerms.concat([newSearchTerm])
+                savedSearchTerms: state.savedSearchTerms.concat([newSearchTerm]).sort(sortDesc)
             };
         case CLEAR_SEARCH_TERMS:
             return {

@@ -1,4 +1,4 @@
-// import { Actions } from 'react-native-router-flux';
+import { startUpActions } from '../../socket/actionGenerators.jsx';
 
 import {
   loginUser,
@@ -6,7 +6,6 @@ import {
   updateResetCodeError,
   logoutUser,
   logoutFromSocket } from './actionGenerators';
-
 
 import {
   LOGIN_SUCCESSFUL,
@@ -23,6 +22,7 @@ export const authenticationListener = (store, redirects) => {
     switch (lastAction.type) {
       case LOGIN_SUCCESSFUL: {
         store.dispatch(loginUser(lastAction.payload));
+        startUpActions.forEach(action => store.dispatch(action()));
         redirects.domain();
         break;
       }
