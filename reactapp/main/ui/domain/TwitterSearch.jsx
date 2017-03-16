@@ -18,7 +18,7 @@ class TwitterSearch extends Component {
 
     onSearchTextChange() {
         const searchText = this.refs.searchText.value.trim();
-        // this.props.searchTwitter(searchText);
+        this.props.searchTwitter(searchText);
     }
 
     renderSavedSearches() {
@@ -35,8 +35,10 @@ class TwitterSearch extends Component {
         const { searchResults } = this.props;
         console.log('searchResults', searchResults);
         return searchResults.map( searchResult => {
-            return (<li key={searchResult}>
-                {searchResult}
+            return (<li key={searchResult.id}>
+                <span className="author">{searchResult.author}</span>:
+                <span className="tweet">{searchResult.text}</span>
+                (<span className="createdAt">{searchResult.createdAt}</span>)
             </li>);
         })
     }
