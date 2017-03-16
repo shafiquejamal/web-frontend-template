@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router';
+import * as axios from 'axios';
 
 import { LOGOUT_LINK } from '../../../routes';
 import { searchTwitter, saveSearchTerm } from '../../web-mobile-common/domain/actionGenerators';
@@ -13,7 +14,8 @@ class TwitterSearch extends Component {
         this.renderSavedSearches = this.renderSavedSearches.bind(this);
         this.renderSearchResults = this.renderSearchResults.bind(this);
         this.onSaveSearchResult = this.onSaveSearchResult.bind(this);
-        this.onLucky = this.onLucky(this);
+        this.onLucky = this.onLucky.bind(this);
+        this.updateSearchWith = this.updateSearchWith.bind(this);
     }
 
     onSearchTextChange() {
@@ -21,11 +23,16 @@ class TwitterSearch extends Component {
         this.props.searchTwitter(searchText);
     }
 
+    updateSearchWith(searchText) {
+        this.refs.searchText.value = searchText;
+        this.props.searchTwitter(searchText);
+    }
+
     renderSavedSearches() {
         const { savedSearchTerms } = this.props;
         console.log('savedSearchTerms', savedSearchTerms);
         return savedSearchTerms.map( savedSearchTerm => {
-            return (<li key={savedSearchTerm.createdAt}>
+            return (<li key={savedSearchTerm.createdAt} onClick={() => this.updateSearchWith(savedSearchTerm.searchText)}>
                 {savedSearchTerm.searchText}
             </li>);
         })
@@ -48,11 +55,14 @@ class TwitterSearch extends Component {
         if (searchTextToSave !== '') {
             this.props.saveSearchTerm(searchTextToSave)
         }
-        this.refs.searchText.value = '';
     }
 
     onLucky() {
-
+        console.log('clicked onLucky');
+        axios.get('http://www.setgetgo.com/randomword/get.php').then((response) => {
+            this.refs.searchText.value = response.data;
+            this.props.searchTwitter(this.refs.searchText.value);
+        });
     }
 
     render() {
