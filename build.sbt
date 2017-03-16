@@ -1,4 +1,4 @@
-name := """webfrontendtemplate"""
+name := """twittersearchfrontend"""
 
 version := "0.0.1"
 
