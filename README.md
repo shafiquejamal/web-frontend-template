@@ -15,12 +15,7 @@ To be used with https://github.com/shafiquejamal/paytmlsesjapigateway as the api
 git clone https://github.com/shafiquejamal/paytmlsesjwebfrontend.git /path/to/project
 cd /path/to/project
 ```
-Set any environment variables as indicated in `ConfigurationPaths.jsx` and `application.conf`, for example:
-```
-export FRONTENDTEMPLATE_WS_PROTOCOL=ws
-export FRONTENDTEMPLATE_API_SERVER=localhost:9001
-export FRONTENDTEMPLATE_PLAY_CRYPTO_SECRET=some_secret_characters
-```
+
 3. Run SBT:
 ```
 sbt
@@ -32,7 +27,8 @@ and wait for the dependencies to be downloaded
 cd /path/to/project
 npm install
 ```
-After npm is done installing, set the environment variables, for example:
+After npm is done installing, set any environment variables as indicated in `ConfigurationPaths.jsx` and `application.conf`, for example:
+
 ```
 export FRONTENDTEMPLATE_WS_PROTOCOL=ws
 export FRONTENDTEMPLATE_API_SERVER=localhost:9001
