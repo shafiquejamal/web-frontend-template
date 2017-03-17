@@ -16,7 +16,6 @@ class ChangePassword extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            changePasswordError: '',
             currentpasswordError: '',
             newpasswordError: '',
             confirmError: ''
@@ -65,7 +64,7 @@ class ChangePassword extends Component {
                         <div className="main-login main-center">
                             <form className="form-horizontal">
                               <div className="text-help">
-                                {this.state.changePasswordError}
+                                {this.props.passwordChangeError}
                               </div>
                                 <div className="form-group">
                                     <label htmlFor="currentpassword" className="control-label">Current Password</label>
@@ -119,8 +118,8 @@ class ChangePassword extends Component {
 }
 
 const mapStateToProps = ({ authentication }) => {
-    const { user } = authentication;
-    return { user }
+    const { user, passwordChangeError } = authentication;
+    return { user, passwordChangeError }
 };
 
 export default connect(mapStateToProps, { changePasswordThroughSocket })(ChangePassword);

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router';
+import validator from 'validator';
 
-import { requestPasswordResetCodeThroughSocket } from '../../../web-mobile-common/access/authentication/actionGenerators';
-import { LOGOUT_LINK } from '../../../../routes';
+import { requestPasswordResetCodeThroughSocket, updateEmail } from '../../../web-mobile-common/access/authentication/actionGenerators';
+import { LOGOUT_LINK, RESET_PASSWORD_LINK, RESET_PASSWORD_TEXT } from '../../../../routes';
 
 class RequestResetPassword extends Component {
 
@@ -13,22 +14,41 @@ class RequestResetPassword extends Component {
         }
     }
 
+    componentDidMount() {
+        this.refs.email.value = this.props.email;
+    }
+
   constructor(props) {
     super(props);
     this.state = {
         error: '',
-        emailError: '',
-        linkSentMessage: ''
+        emailError: ''
     };
 
     this.onSendPasswordResetLink = this.onSendPasswordResetLink.bind(this);
+    this.checkEmail = this.checkEmail.bind(this);
   }
 
-  onSendPasswordResetLink(e) {
-    e.preventDefault();
-    const email = this.refs.email.value;
-    this.props.requestPasswordResetCodeThroughSocket(email)
-  }
+    onSendPasswordResetLink(e) {
+        e.preventDefault();
+        if (this.state.emailError === '') {
+            const email = this.refs.email.value;
+            this.props.requestPasswordResetCodeThroughSocket(email);
+        } else {
+            this.setState({ error: 'Please fix error'});
+        }
+    }
+
+    checkEmail(e) {
+        const email = this.refs.email.value.trim();
+        this.refs.email.value = email;
+        if (email !== '' && !validator.isEmail(email)) {
+            this.setState({ emailError: 'Must be a valid email address' });
+        } else {
+            this.props.updateEmail(email);
+            this.setState({ emailError: '' });
+        }
+    }
 
   render() {
     return (
@@ -37,7 +57,7 @@ class RequestResetPassword extends Component {
               <div className="col-md-4 col-md-offset-4">
                   <div className="panel-heading">
                       <div className="panel-title text-center">
-                          <h1 className="title">Send Password Reset Link</h1>
+                          <h3 className="title">Send Password Reset Code</h3>
                           <hr />
                       </div>
                   </div>
@@ -46,15 +66,12 @@ class RequestResetPassword extends Component {
                           <div className="text-help">
                             {this.state.error}
                           </div>
-                          <div className="text-link-sent">
-                            {this.state.linkSentMessage}
-                          </div>
                           <div className="form-group">
                               <label htmlFor="email" className="control-label">Your Email</label>
                               <div className="cols-sm-10">
                                   <div className={`input-group`}>
                                       <span className="input-group-addon"><i className="fa fa-envelope fa" aria-hidden="true"></i></span>
-                                      <input type="text" className="form-control" name="email" id="email" ref="email"  placeholder="Enter your email address" />
+                                      <input type="text" className="form-control" name="email" id="email" ref="email"  placeholder="Enter your email address" onChange={this.checkEmail} onBlur={this.checkEmail}  />
                                   </div>
                                   <div className="text-help">
                                     {this.state.emailError}
@@ -63,7 +80,10 @@ class RequestResetPassword extends Component {
                           </div>
 
                           <div className="form-group ">
-                              <button type="button" className="btn btn-primary btn-lg btn-block login-button" onClick={this.onSendPasswordResetLink}>Send Password Reset Link</button>
+                              <button type="button" className="btn btn-primary btn-lg btn-block login-button" onClick={this.onSendPasswordResetLink}>Send Password Reset Code</button>
+                          </div>
+                          <div className="login-register">
+                              <p><Link to={RESET_PASSWORD_LINK}>{RESET_PASSWORD_TEXT}</Link></p>
                           </div>
                       </form>
                   </div>
@@ -76,8 +96,10 @@ class RequestResetPassword extends Component {
 }
 
 const mapStateToProps = ({ authentication }) => {
-    const { user } = authentication;
-    return { user }
+    const { user, email } = authentication;
+    return { user, email }
 };
 
-export default connect(mapStateToProps, { requestPasswordResetCodeThroughSocket })(RequestResetPassword);
+export default connect(mapStateToProps, {
+    requestPasswordResetCodeThroughSocket,
+    updateEmail })(RequestResetPassword);

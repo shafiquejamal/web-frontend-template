@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router';
+import validator from 'validator';
 
 import { resendActivationCodeThroughSocket } from '../../../web-mobile-common/access/activation/actionGenerators';
+import { updateEmail, updateUsername } from '../../../web-mobile-common/access/authentication/actionGenerators';
 import { LOGOUT_LINK } from '../../../../routes';
 
 class ResendActivation extends Component {
@@ -11,6 +13,12 @@ class ResendActivation extends Component {
         if (this.props.user) {
             hashHistory.push(LOGOUT_LINK)
         }
+
+        this.checkEmail = this.checkEmail.bind(this);
+    }
+
+    componentDidMount() {
+        this.refs.email.value = this.props.email;
     }
 
   constructor(props) {
@@ -24,11 +32,28 @@ class ResendActivation extends Component {
     this.onSendPasswordResetLink = this.onSendPasswordResetLink.bind(this);
   }
 
-  onSendPasswordResetLink(e) {
-    e.preventDefault();
-    const email = this.refs.email.value;
-    this.props.resendActivationCodeThroughSocket(email)
-  }
+    onSendPasswordResetLink(e) {
+        e.preventDefault();
+        if (this.state.emailError === '') {
+            const email = this.refs.email.value;
+            this.setState({ error: ''});
+            this.props.resendActivationCodeThroughSocket(email);
+
+        } else {
+            this.setState({ error: 'Please fix error'});
+        }
+    }
+
+    checkEmail(e) {
+        const email = this.refs.email.value.trim();
+        this.refs.email.value = email;
+        if (email !== '' && !validator.isEmail(email)) {
+            this.setState({ emailError: 'Must be a valid email address' });
+        } else {
+            this.props.updateEmail(email);
+            this.setState({ emailError: '' });
+        }
+    }
 
   render() {
     return (
@@ -37,7 +62,7 @@ class ResendActivation extends Component {
               <div className="col-md-4 col-md-offset-4">
                   <div className="panel-heading">
                       <div className="panel-title text-center">
-                          <h1 className="title">Re-send Activation Link</h1>
+                          <h3 className="title">Re-send Activation Code</h3>
                           <hr />
                       </div>
                   </div>
@@ -54,7 +79,7 @@ class ResendActivation extends Component {
                               <div className="cols-sm-10">
                                   <div className={`input-group`}>
                                       <span className="input-group-addon"><i className="fa fa-envelope fa" aria-hidden="true"></i></span>
-                                      <input type="text" className="form-control" name="email" id="email" ref="email"  placeholder="Enter your email address" />
+                                      <input type="text" className="form-control" name="email" id="email" ref="email"  placeholder="Enter your email address"  onChange={this.checkEmail} onBlur={this.checkEmail}  />
                                   </div>
                                   <div className="text-help">
                                     {this.state.emailError}
@@ -76,8 +101,8 @@ class ResendActivation extends Component {
 }
 
 const mapStateToProps = ({ authentication }) => {
-    const { user } = authentication;
-    return { user }
+    const { user, email } = authentication;
+    return { user, email }
 };
 
 export default connect(mapStateToProps, { resendActivationCodeThroughSocket })(ResendActivation);

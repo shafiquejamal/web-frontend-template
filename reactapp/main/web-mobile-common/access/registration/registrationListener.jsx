@@ -56,6 +56,7 @@ export const registrationListener = (store, redirects) => {
       }
       case RESEND_ACTIVATION_CODE_RESULT: {
         store.dispatch(updateActivationError(lastAction.payload));
+        redirects.activateForm();
         break;
       }
       default:

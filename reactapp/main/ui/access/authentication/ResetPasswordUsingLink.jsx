@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router';
-import validator from 'validator';
-
 
 import { resetPasswordThroughSocket } from '../../../web-mobile-common/access/authentication/actionGenerators';
 import { LOGOUT_LINK } from '../../../../routes';
@@ -15,45 +13,15 @@ class ResetPassword extends Component {
         }
     }
 
-    componentDidMount() {
-        this.refs.email.value = this.props.email;
-    }
-
     constructor(props) {
       super(props);
       this.state = {
-        codeError: '',
         newpasswordError: '',
-        confirmError: '',
-        emailError: '',
-        error: ''
+        confirmError: ''
       };
 
       this.checkPassword = this.checkPassword.bind(this);
       this.onResetPassword = this.onResetPassword.bind(this);
-      this.checkCode = this.checkCode.bind(this);
-      this.checkEmail = this.checkEmail.bind(this);
-    }
-
-    checkCode() {
-        const code = this.refs.code.value.trim();
-        this.refs.code.value = code;
-        if (code === '') {
-            this.setState({ codeError: 'Code is required' })
-        } else {
-            this.setState({ codeError: '' })
-        }
-    }
-
-    checkEmail(e) {
-        const email = this.refs.email.value.trim();
-        this.refs.email.value = email;
-        if (email !== '' && !validator.isEmail(email)) {
-            this.setState({ emailError: 'Must be a valid email address' });
-        } else {
-            this.props.updateEmail(email);
-            this.setState({ emailError: '' });
-        }
     }
 
     checkPassword(e) {
@@ -75,14 +43,10 @@ class ResetPassword extends Component {
     }
 
     onResetPassword() {
-      const { newpasswordError, confirmError, codeError, emailError } = this.state;
-      const { email } = this.props;
-      const code = this.refs.code.value;
-      if (newpasswordError === '' && confirmError === '' && codeError === '' && emailError == '') {
-            this.setState({ error: '' });
-            this.props.resetPasswordThroughSocket(email, code, this.refs.newpassword.value);
-      } else {
-          this.setState({ error: 'Please fix errors' });
+      const { newpasswordError, confirmError} = this.state;
+      const { email, code } = this.props.location.query;
+      if (newpasswordError === '' && confirmError === '' ) {
+        this.props.resetPasswordThroughSocket(email, code, this.refs.newpassword.value);
       }
     }
 
@@ -102,33 +66,6 @@ class ResetPassword extends Component {
                               <div className="text-help">
                                 {this.props.resetCodeError}
                               </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="email" className="control-label">Your Email</label>
-                                    <div className="cols-sm-10">
-                                        <div className={`input-group ${this.state.emailError !== '' ? 'has-danger' : ''}`}>
-                                            <span className="input-group-addon"><i className="fa fa-envelope fa" aria-hidden="true"> </i></span>
-                                            <input type="text" className="form-control" name="email" id="email" ref="email" placeholder="Enter your Email" data-check="email" onBlur={this.checkEmail} onChange={this.checkAvailable} />
-                                        </div>
-                                        <div className="text-help">
-                                            {this.state.emailError}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="code" className="control-label">Enter code emailed to you</label>
-                                    <div className="cols-sm-10">
-                                        <div className={`input-group ${this.state.codeError !== '' ? 'has-danger' : ''}`}>
-                                            <span className="input-group-addon"><i className="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                                            <input type="code" className="form-control" name="code" id="code" ref="code" placeholder="Enter password reset code" data-check="code" ref="code" onBlur={this.checkCode} onChange={this.checkCode} />
-                                        </div>
-                                        <div className="text-help">
-                                            {this.state.codeError}
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div className="form-group">
                                     <label htmlFor="newpassword" className="control-label">New Password</label>
                                     <div className="cols-sm-10">
@@ -168,8 +105,8 @@ class ResetPassword extends Component {
 }
 
 const mapStateToProps = ({ authentication }) => {
-    const { user, resetCodeError, email } = authentication;
-    return { user, resetCodeError, email }
+    const { user, resetCodeError } = authentication;
+    return { user, resetCodeError }
 };
 
 export default connect(mapStateToProps, { resetPasswordThroughSocket })(ResetPassword);

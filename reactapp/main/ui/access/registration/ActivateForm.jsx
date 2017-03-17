@@ -6,6 +6,7 @@ import validator from 'validator';
 import { LOGIN_LINK, LOGIN_TEXT, REGISTRATION_SUCCESS_LINK, RESEND_ACTIVATION_LINK, RESEND_ACTIVATION_TEXT, LOGOUT_LINK } from '../../../../routes';
 import { activateUserThroughSocket } from '../../../web-mobile-common/access/activation/actionGenerators';
 import { emptyMapStateToProps } from '../../../web-mobile-common/common/misc.jsx';
+import { updateEmail } from '../../../web-mobile-common/access/authentication/actionGenerators';
 
 class ActivateForm extends Component {
 
@@ -13,6 +14,10 @@ class ActivateForm extends Component {
         if (this.props.user) {
             hashHistory.push(LOGOUT_LINK)
         }
+    }
+
+    componentDidMount() {
+        this.refs.email.value = this.props.email;
     }
 
     constructor(props) {
@@ -36,6 +41,7 @@ class ActivateForm extends Component {
       } else if (text === '') {
         this.setState({ emailError: 'Email cannot be blank' })
       } else {
+        this.props.updateEmail(text);
         this.setState({ emailError: '' });
       }
     }
@@ -122,11 +128,11 @@ class ActivateForm extends Component {
 }
 
 const mapStateToProps = ({ activation, authentication }) => {
-    const { user } = authentication;
+    const { user, email } = authentication;
     const { error } = activation;
-    return { user, error };
+    return { user, error, email };
 };
 
 export default connect(mapStateToProps, {
-    activateUserThroughSocket
+    activateUserThroughSocket, updateEmail
 })(ActivateForm);

@@ -5,6 +5,7 @@ import validator from 'validator';
 
 import { LOGIN_LINK, LOGIN_TEXT, REGISTRATION_SUCCESS_LINK, RESEND_ACTIVATION_LINK, RESEND_ACTIVATION_TEXT, ACTIVATE_FORM_LINK, ACTIVATE_FORM_TEXT, LOGOUT_LINK } from '../../../../routes';
 import { registerUserThroughSocket, checkEmailAvailableThroughSocket, checkUsernameAvailableThroughSocket } from '../../../web-mobile-common/access/registration/actionGenerators';
+import { updateEmail, updateUsername } from '../../../web-mobile-common/access/authentication/actionGenerators';
 
 class Register extends Component {
 
@@ -30,13 +31,20 @@ class Register extends Component {
         this.checkAvailable = this.checkAvailable.bind(this);
         this.checkPassword = this.checkPassword.bind(this);
         this.onRegister = this.onRegister.bind(this);
+
+    }
+
+    componentDidMount() {
+        this.refs.username.value = this.props.username;
+        this.refs.email.value = this.props.email;
     }
 
     checkEmail(e) {
       const inputValue = e.target.value;
       if (inputValue !== '' && !validator.isEmail(inputValue)) {
         this.setState({ emailError: 'Must be a valid email address' });
-      } else if (!this.state.emailError) {
+      } else {
+        this.props.updateEmail(inputValue);
         this.setState({ emailError: '' });
       }
     }
@@ -52,6 +60,7 @@ class Register extends Component {
           if (checkVariable == 'email') {
             this.props.checkEmailAvailableThroughSocket(inputValue)
           } else {
+            this.props.updateUsername(inputValue);
             this.props.checkUsernameAvailableThroughSocket(inputValue)
           }
         }
@@ -109,7 +118,7 @@ class Register extends Component {
                                     <div className="cols-sm-10">
                                         <div className={`input-group ${this.state.emailError !== '' ? 'has-danger' : ''}`}>
                                             <span className="input-group-addon"><i className="fa fa-envelope fa" aria-hidden="true"> </i></span>
-                                            <input type="text" className="form-control" name="email" id="email" placeholder="Enter your Email" data-check="email" onBlur={this.checkEmail} onChange={this.checkAvailable} />
+                                            <input type="text" className="form-control" name="email" id="email" ref="email" placeholder="Enter your Email" data-check="email" onBlur={this.checkEmail} onChange={this.checkAvailable} />
                                         </div>
                                         <div className="text-help">
                                             {this.state.emailError}
@@ -177,13 +186,15 @@ class Register extends Component {
 
 
 const mapStateToProps = ({ registration, authentication }) => {
-    const { user } = authentication;
+    const { user, username, email } = authentication;
     const { emailAvailableError, usernameAvailableError } = registration;
-    return { user, emailAvailableError, usernameAvailableError }
+    return { user, emailAvailableError, usernameAvailableError, username, email }
 };
 
 export default connect(mapStateToProps, {
     checkUsernameAvailableThroughSocket,
     checkEmailAvailableThroughSocket,
-    registerUserThroughSocket
+    registerUserThroughSocket,
+    updateEmail,
+    updateUsername
 })(Register);

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router';
+import validator from 'validator';
 
 import { REGISTER_LINK, REGISTER_TEXT, REQUEST_RESET_PASSWORD_LINK, REQUEST_RESET_PASSWORD_TEXT, MANAGE_ACCOUNT_LINK, RESEND_ACTIVATION_LINK, RESEND_ACTIVATION_TEXT, ACTIVATE_FORM_LINK, ACTIVATE_FORM_TEXT, LOGOUT_LINK } from '../../../../routes';
-import { logUserInThroughSocket } from '../../../web-mobile-common/access/authentication/actionGenerators';
+import { logUserInThroughSocket, updateUsernameOrEmail, updateEmail, updateUsername } from '../../../web-mobile-common/access/authentication/actionGenerators';
 
 class Login extends Component {
 
@@ -16,7 +17,6 @@ class Login extends Component {
   constructor(props) {
       super(props);
       this.state = {
-        loginError: '',
         emailOrUsernameError: '',
         passwordError: ''
       };
@@ -26,11 +26,25 @@ class Login extends Component {
       this.onPasswordChange = this.onPasswordChange.bind(this);
   }
 
+    componentDidMount() {
+        if (this.props.email !== '') {
+            this.refs.emailOrUsername.value = this.props.email;
+        } else {
+            this.refs.emailOrUsername.value = this.props.username;
+        }
+    }
+
   onEmailOrUsernameChange() {
       const text = this.refs.emailOrUsername.value.trim();
       this.refs.emailOrUsername.value = text;
       const newErrorMessage = text.trim() === '' ? 'Email or username is required' : '';
       this.setState({ emailOrUsernameError: newErrorMessage });
+      this.props.updateUsernameOrEmail(text);
+      if (validator.isEmail(text)) {
+          this.props.updateEmail(text);
+      } else {
+          this.props.updateUsername(text);
+      }
   }
 
   onPasswordChange() {
@@ -59,7 +73,7 @@ class Login extends Component {
                   <div className="main-login main-center">
                       <form className="form-horizontal">
                           <div className="text-help">
-                            {this.state.loginError}
+                            {this.props.error}
                           </div>
                           <div className="form-group">
                               <label htmlFor="emailOrUsername" className="control-label">Your Email or Username</label>
@@ -107,8 +121,12 @@ class Login extends Component {
 }
 
 const mapStateToProps = ({ authentication }) => {
-    const { user } = authentication;
-    return { user }
+    const { user, error, username, email } = authentication;
+    return { user, error, username, email }
 };
 
-export default connect(mapStateToProps, { logUserInThroughSocket })(Login);
+export default connect(mapStateToProps, {
+    logUserInThroughSocket,
+    updateUsernameOrEmail,
+    updateEmail,
+    updateUsername  })(Login);
