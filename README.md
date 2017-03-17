@@ -1,6 +1,6 @@
-# Web Frontend Template
+# Twitter Search application - web frontend
 
-To be used with https://github.com/shafiquejamal/api-gateway-template as the backend
+To be used with https://github.com/shafiquejamal/paytmlsesjapigateway as the api gateway/backend. Install that first before executing the following steps.
 
 ## Requirements
 
@@ -12,11 +12,15 @@ To be used with https://github.com/shafiquejamal/api-gateway-template as the bac
 
 1. In a terminal tab, clone the repository into a directory and cd into that directory:
 ```
-git clone https://github.com/shafiquejamal/play-authentication.git /path/to/project
+git clone https://github.com/shafiquejamal/paytmlsesjwebfrontend.git /path/to/project
 cd /path/to/project
 ```
-Set any environment variables as indicated in `ConfigurationPaths.jsx`.
-
+Set any environment variables as indicated in `ConfigurationPaths.jsx` and `application.conf`, for example:
+```
+export FRONTENDTEMPLATE_WS_PROTOCOL=ws
+export FRONTENDTEMPLATE_API_SERVER=localhost:9001
+export FRONTENDTEMPLATE_PLAY_CRYPTO_SECRET=some_secret_characters
+```
 3. Run SBT:
 ```
 sbt
@@ -28,21 +32,21 @@ and wait for the dependencies to be downloaded
 cd /path/to/project
 npm install
 ```
-When npm is done installing run
+After npm is done installing, set the environment variables, for example:
 ```
-npm test
-```
-then run
+export FRONTENDTEMPLATE_WS_PROTOCOL=ws
+export FRONTENDTEMPLATE_API_SERVER=localhost:9001
+export FRONTENDTEMPLATE_PLAY_CRYPTO_SECRET=some_secret_characters 
+``` 
+Then run webpack:
 ```
 webpack -w
 ```
 5. After webpack is running with no errors, go back to the SBT terminal tab. In SBT run the following commands:
 ```
-~run 9000
+; clean; ~run 9000
 ```
 6. In a browswer, go to http://localhost:9000, and voila!
-
-Changes to the .jsx files, these will automatically be reflected in the running app after reloading the webpage (assuming no errors - check the terminal tab running webpack and the browser javascript console to check for errors).
 
 ## References:
 
