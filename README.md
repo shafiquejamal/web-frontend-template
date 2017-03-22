@@ -1,6 +1,8 @@
-# Twitter Search application - web frontend
+# Web-front-end Tempalte
 
-To be used with https://github.com/shafiquejamal/paytmlsesjapigateway as the api gateway/backend. Install that first before executing the following steps.
+To be used with https://github.com/shafiquejamal/api-gateway-template as the api gateway/backend. Install and run that first before executing the following steps.
+
+Note: the `web-mobile-common/` directory can be made a git submodule and be used as the `web-mobile-common/` directory in the mobile-front-end template repository located here: https://github.com/shafiquejamal/react-native-mobile-front-end-template. 
 
 ## Requirements
 
