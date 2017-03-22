@@ -14,7 +14,7 @@ Note: the `web-mobile-common/` directory can be made a git submodule and be used
 
 1. In a terminal tab, clone the repository into a directory and cd into that directory:
 ```
-git clone https://github.com/shafiquejamal/paytmlsesjwebfrontend.git /path/to/project
+git clone https://github.com/shafiquejamal/web-frontend-template.git /path/to/project
 cd /path/to/project
 ```
 
