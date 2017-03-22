@@ -1,4 +1,4 @@
-name := """paytmlsesjwebfrontend"""
+name := """webfrontendtemplate"""
 
 version := "0.0.1"
 

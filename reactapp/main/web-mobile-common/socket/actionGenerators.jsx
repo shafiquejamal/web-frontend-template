@@ -1,5 +1,4 @@
 import { CONNECT, POST_OBJECT, IS_CONNECTED, IS_DISCONNECTED } from './types';
-import { clearSearchTerms, retrieveSearchTerms } from '../domain/actionGenerators';
 
 export const connectToSocket = () => {
   return {
@@ -27,6 +26,5 @@ export const setIsDisconnected = () => {
 };
 
 export const startUpActions = [
-  clearSearchTerms,
-  retrieveSearchTerms
+  () => { }
 ];
