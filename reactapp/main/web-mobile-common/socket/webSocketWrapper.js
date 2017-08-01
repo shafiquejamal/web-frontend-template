@@ -7,7 +7,13 @@ import {
   setIsDisconnected } from './actionGenerators';
 import { logoutUser, authenticateToSocket } from '../access/authentication/actionGenerators';
 
-export const webSocketWrapper = (store, redirects, WS_ROOT_URL) => {
+function logoutUserAndClearStorage(_storage, _store, _redirects) {
+  _store.dispatch(logoutUser());
+  _redirects.authentication();
+  _storage.clearMapForKey('user');
+}
+
+export const webSocketWrapper = (store, redirects, WS_ROOT_URL, storage) => {
   const wrapper = {
     webSocket: null,
     postObject(obj) {
@@ -26,14 +32,21 @@ export const webSocketWrapper = (store, redirects, WS_ROOT_URL) => {
       wrapper.webSocket = new ReconnectingWebSocket(WS_ROOT_URL);
       wrapper.webSocket.onopen = () => {
         store.dispatch(setIsConnected());
-        const user = store.getState().authentication.user;
-        if (user) {
-          store.dispatch(authenticateToSocket(user.token));
-          startUpActions.forEach(action => store.dispatch(action()));
-        } else {
-          store.dispatch(logoutUser());
-          redirects.authentication();
-        }
+        storage.load({
+          key: 'loginState'
+        }).then(rawData => {
+          if (rawData && rawData.user && rawData.user.token) {
+            console.log('on open rawData1', rawData);
+            store.dispatch(authenticateToSocket(rawData.user.token));
+            startUpActions.forEach(action => store.dispatch(action()));
+          } else {
+            console.log('on open rawData2', rawData);
+            logoutUserAndClearStorage(storage, store, redirects);
+          }
+        }).catch(err => {
+            console.log('storage error', err);
+          logoutUserAndClearStorage(storage, store, redirects);
+        });
       };
 
       wrapper.webSocket.onmessage = (msg) => {

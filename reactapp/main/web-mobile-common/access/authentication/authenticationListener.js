@@ -17,12 +17,30 @@ import {
   PASSWORD_RESET_FAILED,
   PASSWORD_CHANGE_SUCCESSFUL } from './types';
 
-export const authenticationListener = (store, redirects) => {
+function clearUserFromStorageAndRedirect(_storage, _redirects) {
+  _storage.save({
+    key: 'loginState',
+    rawData: {
+      user: null
+    },
+    expires: null
+  });
+  _redirects.authentication();
+}
+
+export const authenticationListener = (store, redirects, storage) => {
     const lastAction = store.getState().lastAction;
     switch (lastAction.type) {
       case LOGIN_SUCCESSFUL: {
         store.dispatch(loginUser(lastAction.payload));
         startUpActions.forEach(action => store.dispatch(action()));
+        storage.save({
+          key: 'loginState',
+          rawData: {
+            user: lastAction.payload
+          },
+          expires: null
+        });
         redirects.domain();
         break;
       }
@@ -51,11 +69,13 @@ export const authenticationListener = (store, redirects) => {
       }
       case LOGOUT_USER: {
         store.dispatch(logoutFromSocket());
+        clearUserFromStorageAndRedirect(storage, redirects);
         redirects.authentication();
         break;
       }
       case SOCKET_LOGGING_OUT: {
         redirects.authentication();
+        clearUserFromStorageAndRedirect(storage, redirects);
         break;
       }
       default:

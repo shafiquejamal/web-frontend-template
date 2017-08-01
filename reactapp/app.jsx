@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, hashHistory } from 'react-router';
 import promise from 'redux-promise';
+import Storage from 'react-native-storage';
 
 import { webSocketWrapper } from './main/web-mobile-common/socket/webSocketWrapper';
 import { connectToSocket } from './main/web-mobile-common/socket/actionGenerators';
@@ -12,7 +13,8 @@ import {
     registrationListener } from './main/web-mobile-common/access/registration/registrationListener';
 
 import routes from './routes';
-import { LOGIN_USER } from './main/web-mobile-common/access/authentication/actionGenerators'
+import { authenticateToSocket } from './main/web-mobile-common/access/authentication/actionGenerators'
+import { LOGIN_USER } from './main/web-mobile-common/access/authentication/types'
 import { LOGIN_LINK, ACTIVATE_FORM_LINK, RESET_PASSWORD_LINK, MANAGE_ACCOUNT_LINK } from './routes.jsx';
 import { WS_ROOT_URL } from './main/ConfigurationPaths';
 
@@ -46,9 +48,29 @@ const redirects = {
     domain: () => hashHistory.push(MANAGE_ACCOUNT_LINK)
 };
 
-const sock = webSocketWrapper(store, redirects, WS_ROOT_URL);
+const storage = new Storage({
+    size: 1000,
+    storageBackend: window.localStorage,
+    defaultExpires: 1000 * 3600 * 24 * 365 * 2,
+    enableCache: true,
+    sync: {
+    }
+});
+
+storage.load({
+    key: 'loginState',
+    autoSync: false,
+    syncInBackground: true,
+    syncParams: { },
+}).then(rawData => {
+    if (rawData && rawData.user && rawData.user.token) {
+        store.dispatch(authenticateToSocket(rawData.user.token));
+    }
+});
+
+const sock = webSocketWrapper(store, redirects, WS_ROOT_URL, storage);
 
 store.subscribe(() => sock.wSListener());
-store.subscribe(() => authenticationListener(store, redirects));
+store.subscribe(() => authenticationListener(store, redirects, storage));
 store.subscribe(() => registrationListener(store, redirects));
 store.dispatch(connectToSocket());
