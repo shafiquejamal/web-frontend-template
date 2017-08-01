@@ -8,11 +8,12 @@ scalaVersion := "2.11.8"
 
 libraryDependencies ++= Seq(
   jdbc,
-  cache,
+  ehcache,
   ws,
   filters,
-  "net.codingwell" %% "scala-guice" % "4.0.1",
-  "org.webjars" %% "webjars-play" % "2.5.0",
+  guice,
+  openId,
+  "org.webjars" %% "webjars-play" % "2.6.0-M1",
   "org.webjars" % "bootstrap" % "4.0.0-alpha.2",
   "org.webjars" % "font-awesome" % "4.6.3",
   "org.webjars" % "react" % "15.1.0",

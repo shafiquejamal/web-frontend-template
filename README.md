@@ -7,7 +7,7 @@ Note: the `web-mobile-common/` directory can be made a git submodule and be used
 ## Requirements
 
 - Java 1.8+
-- SBT
+- SBT 13.15+
 - Node 6.3.0+
 
 ## How to run locally (Mac or Linux)
